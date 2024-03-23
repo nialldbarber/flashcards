@@ -1,0 +1,33 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Cosmica-Bold.ttf",
+      "sha1": "26cb6539417c1ee3d2e95806d72e239b4c9d7ff2"
+    },
+    {
+      "path": "assets/fonts/Cosmica-Extrabold.ttf",
+      "sha1": "c221e9425d41a00ffdb5a4d0661fb5a26d6cbce1"
+    },
+    {
+      "path": "assets/fonts/Cosmica-Heavy.ttf",
+      "sha1": "85e302758360ee1d8ac627d1df9eb86cac8388c2"
+    },
+    {
+      "path": "assets/fonts/Cosmica-Light.ttf",
+      "sha1": "9f7720b46a364d7973871a66e45b19bd3b255551"
+    },
+    {
+      "path": "assets/fonts/Cosmica-Medium.ttf",
+      "sha1": "097f87f7d4e94ba37f12afc8b516ba953c823d98"
+    },
+    {
+      "path": "assets/fonts/Cosmica-Regular.ttf",
+      "sha1": "38d73a13a20304b1bdcc3f18a8f0c8966a9d7e66"
+    },
+    {
+      "path": "assets/fonts/Cosmica-Semibold.ttf",
+      "sha1": "7b9960e888258d7a7f5419f7ce7f1fe976d2f223"
+    }
+  ]
+}

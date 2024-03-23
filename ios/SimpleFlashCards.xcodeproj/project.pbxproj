@@ -14,6 +14,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-SimpleFlashCards-SimpleFlashCardsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-SimpleFlashCards-SimpleFlashCardsTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		3AF62BD662294A8DAD150128 /* Cosmica-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E3CFE8EE3B341929E6C4F2E /* Cosmica-Bold.ttf */; };
+		03BF01C4A6EF4B9693B3258B /* Cosmica-Extrabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8E7CA50C58D94F0B9E8760A4 /* Cosmica-Extrabold.ttf */; };
+		6FB1143FD7B64CC188E4735F /* Cosmica-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACD6865B7A4E4AE58A6A2630 /* Cosmica-Heavy.ttf */; };
+		6F6BECA9EAC64835BA8EA634 /* Cosmica-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58839FC96C3C4E9CAA72F2AD /* Cosmica-Light.ttf */; };
+		F0C38B0256A04327B386087D /* Cosmica-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44EC093C0D05403FAF793AC0 /* Cosmica-Medium.ttf */; };
+		8952814B2F2247D3BFAE476C /* Cosmica-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5D5E13ABA8F48629A08941C /* Cosmica-Regular.ttf */; };
+		848E96D03E6446099736EFD3 /* Cosmica-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B6916E90C6F4DFDB726E00D /* Cosmica-Semibold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +51,13 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SimpleFlashCards/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-SimpleFlashCards-SimpleFlashCardsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleFlashCards-SimpleFlashCardsTests.release.xcconfig"; path = "Target Support Files/Pods-SimpleFlashCards-SimpleFlashCardsTests/Pods-SimpleFlashCards-SimpleFlashCardsTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		4E3CFE8EE3B341929E6C4F2E /* Cosmica-Bold.ttf */ = {isa = PBXFileReference; name = "Cosmica-Bold.ttf"; path = "../assets/fonts/Cosmica-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8E7CA50C58D94F0B9E8760A4 /* Cosmica-Extrabold.ttf */ = {isa = PBXFileReference; name = "Cosmica-Extrabold.ttf"; path = "../assets/fonts/Cosmica-Extrabold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ACD6865B7A4E4AE58A6A2630 /* Cosmica-Heavy.ttf */ = {isa = PBXFileReference; name = "Cosmica-Heavy.ttf"; path = "../assets/fonts/Cosmica-Heavy.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		58839FC96C3C4E9CAA72F2AD /* Cosmica-Light.ttf */ = {isa = PBXFileReference; name = "Cosmica-Light.ttf"; path = "../assets/fonts/Cosmica-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		44EC093C0D05403FAF793AC0 /* Cosmica-Medium.ttf */ = {isa = PBXFileReference; name = "Cosmica-Medium.ttf"; path = "../assets/fonts/Cosmica-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C5D5E13ABA8F48629A08941C /* Cosmica-Regular.ttf */ = {isa = PBXFileReference; name = "Cosmica-Regular.ttf"; path = "../assets/fonts/Cosmica-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1B6916E90C6F4DFDB726E00D /* Cosmica-Semibold.ttf */ = {isa = PBXFileReference; name = "Cosmica-Semibold.ttf"; path = "../assets/fonts/Cosmica-Semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +136,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				D35BE470ADD84BBE8523CBFF /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +162,21 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		D35BE470ADD84BBE8523CBFF /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				4E3CFE8EE3B341929E6C4F2E /* Cosmica-Bold.ttf */,
+				8E7CA50C58D94F0B9E8760A4 /* Cosmica-Extrabold.ttf */,
+				ACD6865B7A4E4AE58A6A2630 /* Cosmica-Heavy.ttf */,
+				58839FC96C3C4E9CAA72F2AD /* Cosmica-Light.ttf */,
+				44EC093C0D05403FAF793AC0 /* Cosmica-Medium.ttf */,
+				C5D5E13ABA8F48629A08941C /* Cosmica-Regular.ttf */,
+				1B6916E90C6F4DFDB726E00D /* Cosmica-Semibold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -243,6 +273,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				3AF62BD662294A8DAD150128 /* Cosmica-Bold.ttf in Resources */,
+				03BF01C4A6EF4B9693B3258B /* Cosmica-Extrabold.ttf in Resources */,
+				6FB1143FD7B64CC188E4735F /* Cosmica-Heavy.ttf in Resources */,
+				6F6BECA9EAC64835BA8EA634 /* Cosmica-Light.ttf in Resources */,
+				F0C38B0256A04327B386087D /* Cosmica-Medium.ttf in Resources */,
+				8952814B2F2247D3BFAE476C /* Cosmica-Regular.ttf in Resources */,
+				848E96D03E6446099736EFD3 /* Cosmica-Semibold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

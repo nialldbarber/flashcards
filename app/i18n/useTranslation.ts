@@ -1,6 +1,6 @@
 import { useTranslation as usei18nTranslation } from "react-i18next";
 
-import type { TranslationKeys } from "app/i18n";
+import type { TranslationKeys } from "#/app/i18n";
 
 type Translation = {
 	t: (key: TranslationKeys) => string;
