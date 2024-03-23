@@ -1,9 +1,10 @@
-import { Text, View } from "react-native";
+import { Layout } from "#/app/design-system/components/scroll-layout";
+import { Text } from "#/app/design-system/components/text";
 
 export function SettingsScreen() {
 	return (
-		<View>
+		<Layout>
 			<Text>Settings Screen</Text>
-		</View>
+		</Layout>
 	);
 }

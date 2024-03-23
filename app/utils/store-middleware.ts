@@ -1,6 +1,6 @@
 import type { StateStorage } from "zustand/middleware";
 
-import { storage } from "app/utils/mmkv";
+import { storage } from "#/app/utils/mmkv";
 
 export const storeMiddleware: StateStorage = {
 	setItem: (key, value) => {

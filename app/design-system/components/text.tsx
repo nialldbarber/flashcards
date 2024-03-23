@@ -1,3 +1,7 @@
+import React, { useMemo } from "react";
+import type { TextProps as NativeTextProps, TextStyle } from "react-native";
+import { Text as NativeText, StyleSheet } from "react-native";
+
 import { colors, type Colors } from "#/app/design-system/colors";
 import { maxFontSizeMultiplier } from "#/app/design-system/constants/maxFontSizeMultiplier";
 import type { FontSizes, TextTypes } from "#/app/design-system/font-size";
@@ -6,9 +10,6 @@ import type { FontWeight } from "#/app/design-system/font-weight";
 import { fontWeight } from "#/app/design-system/font-weight";
 import { flatten } from "#/app/design-system/utils/flatten";
 import { renderStringWithEmoji } from "#/app/design-system/utils/renderStringWithEmoji";
-import React, { useMemo } from "react";
-import type { TextProps as NativeTextProps, TextStyle } from "react-native";
-import { Text as NativeText, StyleSheet } from "react-native";
 
 export type BaseTextProps = {
 	size?: FontSizes;

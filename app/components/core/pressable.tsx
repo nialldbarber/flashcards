@@ -7,7 +7,7 @@ import HapticFeedback, {
 	type HapticFeedbackTypes,
 } from "react-native-haptic-feedback";
 
-import { usePreferencesStore } from "app/store/preferences";
+import { usePreferencesStore } from "#/app/store/preferences";
 
 export interface PressableProps extends NativePressableProps {
 	/**
