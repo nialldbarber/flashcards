@@ -1,3 +1,16 @@
 {
-	"app-title": "Simple Flashcards"
+	"app-title": "Simple Flashcards",
+	"screens": {
+		"home": {
+			"header": "Simple Flashcards",
+			"subheader": "Learn and memorise with ease",
+			"cta": "Get Started"
+		},
+		"cardList": {},
+		"settings": {
+			"header": "Settings",
+			"subheader": "Customise your learning experience",
+			"cta": "Save"
+		}
+	}
 }
