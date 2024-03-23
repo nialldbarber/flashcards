@@ -90,7 +90,7 @@ export function Button(props: ButtonProps) {
 				onPressIn={() => onPress("in")}
 				onPressOut={() => onPress("out")}
 				accessibilityRole="button"
-				accessibilityLabel={accessibilityLabel}
+				aria-label={accessibilityLabel}
 				accessibilityState={{ disabled: isDisabled, busy: isPending }}
 			>
 				<View style={a.flexRow}>

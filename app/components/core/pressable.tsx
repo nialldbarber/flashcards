@@ -2,12 +2,14 @@ import type {
 	GestureResponderEvent,
 	PressableProps as NativePressableProps,
 } from "react-native";
-import { Pressable as NativePressable } from "react-native";
+import { Pressable as NativePressable, Platform } from "react-native";
 import HapticFeedback, {
 	type HapticFeedbackTypes,
 } from "react-native-haptic-feedback";
 
+import { mixpanelTrack } from "#/app/services/mixpanel";
 import { usePreferencesStore } from "#/app/store/preferences";
+import type { TrackingEvents } from "#/app/tracking/events";
 
 export interface PressableProps extends NativePressableProps {
 	/**
@@ -17,42 +19,52 @@ export interface PressableProps extends NativePressableProps {
 	 * optional if we want to just trigger
 	 * a haptic and no onPress event
 	 */
-	onPress?: null | ((event?: GestureResponderEvent) => void) | undefined;
+	onPress?:
+		| null
+		| ((event?: GestureResponderEvent) => void)
+		| undefined;
 	/**
 	 * Use this when the Pressable doesn't
 	 * fire a function, but still requires
 	 * feedback
 	 */
 	forceHaptic?: boolean;
+	eventName?: TrackingEvents;
+	eventProperties?: Record<string, unknown>;
 }
 
 export function Pressable({
 	onPress,
 	forceHaptic = false,
+	eventName,
+	eventProperties,
 	children,
 	...rest
 }: PressableProps) {
 	const { hapticFeedback } = usePreferencesStore();
 
-	function handleOnPress() {
-		// are haptics disabled globally?
-		if (hapticFeedback === false) {
-			if (onPress === null || onPress === undefined) {
-				return;
-			}
-			onPress();
-			return;
+	function invokeTrackEvent() {
+		if (eventName) {
+			mixpanelTrack(eventName, {
+				platform: Platform.OS,
+				...(eventProperties || {}),
+			});
 		}
-		// is the element button-like w/o an event?
-		if (forceHaptic) {
-			HapticFeedback.trigger("impactAsync" as HapticFeedbackTypes);
-			return;
-		}
+	}
 
-		// standard button with an event
-		if (onPress === null || onPress === undefined) return;
-		HapticFeedback.trigger("impactAsync" as HapticFeedbackTypes);
-		onPress();
+	function invokeHapticFeedback() {
+		if (hapticFeedback || forceHaptic) {
+			HapticFeedback.trigger("impactAsync" as HapticFeedbackTypes);
+		}
+	}
+
+	function handleOnPress() {
+		invokeHapticFeedback();
+		invokeTrackEvent();
+
+		if (onPress) {
+			onPress();
+		}
 	}
 
 	return (

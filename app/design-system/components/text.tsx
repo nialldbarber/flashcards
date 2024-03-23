@@ -1,10 +1,16 @@
 import React, { useMemo } from "react";
-import type { TextProps as NativeTextProps, TextStyle } from "react-native";
+import type {
+	TextProps as NativeTextProps,
+	TextStyle,
+} from "react-native";
 import { Text as NativeText, StyleSheet } from "react-native";
 
 import { colors, type Colors } from "#/app/design-system/colors";
 import { maxFontSizeMultiplier } from "#/app/design-system/constants/maxFontSizeMultiplier";
-import type { FontSizes, TextTypes } from "#/app/design-system/font-size";
+import type {
+	FontSizes,
+	TextTypes,
+} from "#/app/design-system/font-size";
 import { typeHierarchy } from "#/app/design-system/font-size";
 import type { FontWeight } from "#/app/design-system/font-weight";
 import { fontWeight } from "#/app/design-system/font-weight";
@@ -16,7 +22,7 @@ export type BaseTextProps = {
 	weight?: FontWeight;
 	level?: TextTypes;
 	color?: Colors;
-	textStyles?: TextStyle;
+	styles?: TextStyle;
 	withEmoji?: boolean;
 	a11yHint?: string;
 };
@@ -30,7 +36,7 @@ export function Text({
 	color,
 	withEmoji = false,
 	a11yHint,
-	textStyles,
+	styles,
 	children,
 }: TextProps) {
 	const renderChildren = useMemo(() => {
@@ -53,7 +59,7 @@ export function Text({
 		});
 	}, [children, withEmoji]);
 
-	const styles = StyleSheet.create({
+	const _styles = StyleSheet.create({
 		text: {
 			...(level === "heading"
 				? typeHierarchy.heading[size]
@@ -65,7 +71,7 @@ export function Text({
 
 	return (
 		<NativeText
-			style={[styles.text, flatten(textStyles)]}
+			style={[_styles.text, flatten(styles)]}
 			maxFontSizeMultiplier={maxFontSizeMultiplier}
 			accessibilityRole={level === "heading" ? "header" : "text"}
 			accessibilityHint={a11yHint}

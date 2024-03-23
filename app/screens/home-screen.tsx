@@ -11,8 +11,14 @@ export function HomeScreen() {
 
 	return (
 		<Layout>
-			<Text size="20px">{t("app-title")}</Text>
-			<Pressable onPress={() => navigate("SettingsModal")}>
+			<Text level="heading" size="30px">
+				{t("app-title")}
+			</Text>
+			<Pressable
+				onPress={() => navigate("SettingsModal")}
+				eventName="NAVIGATED_TO_SETTINGS"
+				eventProperties={{ from: "HomeScreen" }}
+			>
 				<Text>Go to Settings</Text>
 			</Pressable>
 		</Layout>
