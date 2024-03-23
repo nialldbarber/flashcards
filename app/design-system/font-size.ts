@@ -113,8 +113,6 @@ export const typeHierarchy: TypeHierarchyTypes = {
 	},
 } as const;
 
-typeHierarchy.heading["16px"];
-
 export type TypeHierarchy = keyof typeof typeHierarchy;
 export type HeadingSize = keyof typeof typeHierarchy.heading;
 export type TextSize = keyof typeof typeHierarchy.text;

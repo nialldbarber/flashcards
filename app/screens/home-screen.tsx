@@ -8,7 +8,7 @@ export function HomeScreen() {
 
 	return (
 		<View>
-			<Text>{t("app-title")}</Text>
+			<Text size="20px">{t("app-title")}</Text>
 		</View>
 	);
 }
