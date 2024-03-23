@@ -44,19 +44,19 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SimpleFlashCards/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SimpleFlashCards/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-SimpleFlashCards-SimpleFlashCardsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleFlashCards-SimpleFlashCardsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1B6916E90C6F4DFDB726E00D /* Cosmica-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Semibold.ttf"; path = "../assets/fonts/Cosmica-Semibold.ttf"; sourceTree = "<group>"; };
+		1B6916E90C6F4DFDB726E00D /* Cosmica-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Semibold.ttf"; path = "../assets/fonts/Cosmica-Semibold.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-SimpleFlashCards.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleFlashCards.debug.xcconfig"; path = "Target Support Files/Pods-SimpleFlashCards/Pods-SimpleFlashCards.debug.xcconfig"; sourceTree = "<group>"; };
-		44EC093C0D05403FAF793AC0 /* Cosmica-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Medium.ttf"; path = "../assets/fonts/Cosmica-Medium.ttf"; sourceTree = "<group>"; };
-		4E3CFE8EE3B341929E6C4F2E /* Cosmica-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Bold.ttf"; path = "../assets/fonts/Cosmica-Bold.ttf"; sourceTree = "<group>"; };
+		44EC093C0D05403FAF793AC0 /* Cosmica-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Medium.ttf"; path = "../assets/fonts/Cosmica-Medium.ttf"; sourceTree = "<group>"; };
+		4E3CFE8EE3B341929E6C4F2E /* Cosmica-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Bold.ttf"; path = "../assets/fonts/Cosmica-Bold.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-SimpleFlashCards.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleFlashCards.release.xcconfig"; path = "Target Support Files/Pods-SimpleFlashCards/Pods-SimpleFlashCards.release.xcconfig"; sourceTree = "<group>"; };
-		58839FC96C3C4E9CAA72F2AD /* Cosmica-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Light.ttf"; path = "../assets/fonts/Cosmica-Light.ttf"; sourceTree = "<group>"; };
+		58839FC96C3C4E9CAA72F2AD /* Cosmica-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Light.ttf"; path = "../assets/fonts/Cosmica-Light.ttf"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-SimpleFlashCards-SimpleFlashCardsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleFlashCards-SimpleFlashCardsTests.debug.xcconfig"; path = "Target Support Files/Pods-SimpleFlashCards-SimpleFlashCardsTests/Pods-SimpleFlashCards-SimpleFlashCardsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-SimpleFlashCards.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleFlashCards.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SimpleFlashCards/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-SimpleFlashCards-SimpleFlashCardsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleFlashCards-SimpleFlashCardsTests.release.xcconfig"; path = "Target Support Files/Pods-SimpleFlashCards-SimpleFlashCardsTests/Pods-SimpleFlashCards-SimpleFlashCardsTests.release.xcconfig"; sourceTree = "<group>"; };
-		8E7CA50C58D94F0B9E8760A4 /* Cosmica-Extrabold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Extrabold.ttf"; path = "../assets/fonts/Cosmica-Extrabold.ttf"; sourceTree = "<group>"; };
-		ACD6865B7A4E4AE58A6A2630 /* Cosmica-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Heavy.ttf"; path = "../assets/fonts/Cosmica-Heavy.ttf"; sourceTree = "<group>"; };
-		C5D5E13ABA8F48629A08941C /* Cosmica-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Regular.ttf"; path = "../assets/fonts/Cosmica-Regular.ttf"; sourceTree = "<group>"; };
+		8E7CA50C58D94F0B9E8760A4 /* Cosmica-Extrabold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Extrabold.ttf"; path = "../assets/fonts/Cosmica-Extrabold.ttf"; sourceTree = "<group>"; };
+		ACD6865B7A4E4AE58A6A2630 /* Cosmica-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Heavy.ttf"; path = "../assets/fonts/Cosmica-Heavy.ttf"; sourceTree = "<group>"; };
+		C5D5E13ABA8F48629A08941C /* Cosmica-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cosmica-Regular.ttf"; path = "../assets/fonts/Cosmica-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -175,7 +175,6 @@
 				1B6916E90C6F4DFDB726E00D /* Cosmica-Semibold.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -619,10 +618,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -690,10 +686,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

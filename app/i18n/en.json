@@ -3,14 +3,10 @@
 	"screens": {
 		"home": {
 			"header": "Simple Flashcards",
-			"subheader": "Learn and memorise with ease",
-			"cta": "Get Started"
-		},
-		"cardList": {},
-		"settings": {
-			"header": "Settings",
-			"subheader": "Customise your learning experience",
-			"cta": "Save"
+			"a11y": {
+				"goToSettings": "Go to settings",
+				"createNewGroup": "Create new group"
+			}
 		}
 	}
 }

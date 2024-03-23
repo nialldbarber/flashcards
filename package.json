@@ -16,6 +16,7 @@
 		"@react-navigation/native-stack": "^6.9.26",
 		"emoji-regex": "^10.3.0",
 		"i18next": "^23.10.1",
+		"iconsax-react-native": "^0.0.8",
 		"intl-pluralrules": "^2.0.1",
 		"mixpanel-react-native": "^3.0.0-beta.2",
 		"react": "18.2.0",
@@ -28,6 +29,7 @@
 		"react-native-reanimated": "^3.8.1",
 		"react-native-safe-area-context": "^4.9.0",
 		"react-native-screens": "^3.29.0",
+		"react-native-svg": "^15.1.0",
 		"zustand": "^4.5.2"
 	},
 	"devDependencies": {
