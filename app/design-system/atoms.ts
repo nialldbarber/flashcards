@@ -335,6 +335,21 @@ export const atoms = {
 	top4: {
 		top: 16,
 	},
+	top5: {
+		top: 20,
+	},
+	top6: {
+		top: 24,
+	},
+	top7: {
+		top: 28,
+	},
+	top8: {
+		top: 32,
+	},
+	top10: {
+		top: 40,
+	},
 	right7: {
 		right: 28,
 	},
