@@ -5,7 +5,7 @@ import type {
 } from "react-native";
 import { Text as NativeText, StyleSheet } from "react-native";
 
-import { colors, type Colors } from "#/app/design-system/colors";
+import { atoms as a } from "#/app/design-system/atoms";
 import { maxFontSizeMultiplier } from "#/app/design-system/constants/maxFontSizeMultiplier";
 import type {
 	FontSizes,
@@ -21,7 +21,6 @@ export type BaseTextProps = {
 	size?: FontSizes;
 	weight?: FontWeight;
 	level?: TextTypes;
-	color?: Colors;
 	styles?: TextStyle;
 	withEmoji?: boolean;
 	a11yHint?: string;
@@ -33,7 +32,6 @@ export function Text({
 	weight = "bold",
 	level = "text",
 	size = level === "heading" ? "18px" : "16px",
-	color,
 	withEmoji = false,
 	a11yHint,
 	styles,
@@ -65,7 +63,7 @@ export function Text({
 				? typeHierarchy.heading[size]
 				: typeHierarchy.text[size]),
 			fontFamily: fontWeight[weight],
-			color: color ? colors[color] : colors.black,
+			color: a.textSlate50.color,
 		},
 	});
 

@@ -2,9 +2,15 @@ import type { ModalScreenProps } from "@react-navigation/modal";
 import type { NavigatorScreenParams } from "@react-navigation/native";
 import type { StackScreenProps } from "@react-navigation/stack";
 
+import type { Flashcard } from "#/app/store/flashcards";
+
 export type RootStackParamList = {
 	Home: undefined;
-	CardList: undefined;
+	CardList: {
+		name: string;
+		emoji: string;
+		flashcards: Flashcard[];
+	};
 	SettingsModal:
 		| NavigatorScreenParams<SettingsModalParamList>
 		| undefined;

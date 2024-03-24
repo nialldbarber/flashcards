@@ -8,12 +8,15 @@ import { atoms as a } from "#/app/design-system/atoms";
 import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Text } from "#/app/design-system/components/text";
 import { flatten } from "#/app/design-system/utils/flatten";
+import { useFlashcardsStore } from "#/app/store/flashcards";
 import { DebugLayout } from "#/app/utils/debug-layout";
 
 export function HomeScreen() {
 	const { t } = useTranslation();
-
+	const { groups } = useFlashcardsStore();
 	const [isFocused, setIsFocused] = useState(false);
+
+	const noGroupsExist = groups.length === 0;
 
 	return (
 		<>
@@ -27,7 +30,7 @@ export function HomeScreen() {
 							a.my5,
 						])}
 					>
-						<Text level="heading" size="30px" styles={a.textSlate50}>
+						<Text level="heading" size="30px">
 							{t("app-title")}
 						</Text>
 						<Pressable
@@ -62,6 +65,32 @@ export function HomeScreen() {
 						/>
 					</View>
 				</DebugLayout>
+
+				<View>
+					{noGroupsExist ? (
+						<View>
+							<Text>{t("screens.home.noGroups")}</Text>
+						</View>
+					) : (
+						groups.map(({ id, name, emoji, flashcards }) => (
+							<Pressable
+								key={id}
+								style={flatten([a.flexRow])}
+								routeName="CardList"
+								routeParams={{
+									name,
+									emoji,
+									flashcards,
+								}}
+							>
+								<DebugLayout>
+									<Text>{emoji}</Text>
+									<Text>{name}</Text>
+								</DebugLayout>
+							</Pressable>
+						))
+					)}
+				</View>
 			</Layout>
 			<View>
 				<Pressable

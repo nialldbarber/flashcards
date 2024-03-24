@@ -35,6 +35,7 @@ export interface PressableProps extends NativePressableProps {
 	eventName?: TrackingEvents;
 	eventProperties?: Record<string, unknown>;
 	routeName?: RootStackRouteNames;
+	routeParams?: Record<string, unknown>;
 }
 
 export function Pressable({
@@ -42,7 +43,8 @@ export function Pressable({
 	forceHaptic = false,
 	eventName,
 	eventProperties,
-	routeName: navigateScreen,
+	routeName,
+	routeParams,
 	children,
 	...rest
 }: PressableProps) {
@@ -67,8 +69,13 @@ export function Pressable({
 	}
 
 	function invokeNavigate() {
-		if (navigateScreen) {
-			navigate(navigateScreen);
+		if (routeName && routeParams) {
+			navigate(routeName, routeParams);
+			return;
+		}
+		if (routeName) {
+			navigate(routeName);
+			return;
 		}
 	}
 
