@@ -6,7 +6,8 @@
 			"a11y": {
 				"goToSettings": "Go to settings",
 				"createNewGroup": "Create new group"
-			}
+			},
+			"searchPlaceholderText": "Search for a group"
 		},
 		"settings": {
 			"header": "Settings",

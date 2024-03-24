@@ -7,7 +7,7 @@ import { atoms as a } from "#/app/design-system/atoms";
 import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Text } from "#/app/design-system/components/text";
 import { flatten } from "#/app/design-system/utils/flatten";
-import { useLanguage } from "../hooks/useLanguage";
+import { useLanguage } from "#/app/hooks/useLanguage";
 
 export function SettingsScreen() {
 	const { t } = useTranslation();

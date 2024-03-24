@@ -11,7 +11,7 @@ interface LayoutProps extends PropsWithChildren {
 
 export function Layout({ children, scrollable = true }: LayoutProps) {
 	const Container = scrollable ? ScrollView : View;
-	const style = flatten([a.flex1, a.px5]);
+	const style = flatten([a.flex1, a.px6]);
 	const layoutProps = scrollable
 		? { contentContainerStyle: style }
 		: { style };
