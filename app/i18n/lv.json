@@ -7,6 +7,12 @@
 				"goToSettings": "Atver iestatījumus",
 				"createNewGroup": "Izveidot jaunu grupu"
 			}
+		},
+		"settings": {
+			"header": "Iestatījumi",
+			"a11y": {
+				"backToHome": "Atgriezties uz sākumlapu"
+			}
 		}
 	}
 }

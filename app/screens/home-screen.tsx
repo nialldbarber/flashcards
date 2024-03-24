@@ -37,7 +37,6 @@ export function HomeScreen() {
 			</Layout>
 			<View>
 				<Pressable
-					// onPress={() => navigate("SettingsModal")}
 					eventName="CREATE_NEW_GROUP"
 					aria-label={t("screens.home.a11y.createNewGroup")}
 					style={flatten([a.absolute, a.bottom12, a.right8])}

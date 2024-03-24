@@ -8,6 +8,7 @@ import HapticFeedback, {
 	type HapticFeedbackTypes,
 } from "react-native-haptic-feedback";
 
+import { useLanguage } from "#/app/hooks/useLanguage";
 import type { RootStackRouteNames } from "#/app/navigation/types";
 import { mixpanelTrack } from "#/app/services/mixpanel";
 import { usePreferencesStore } from "#/app/store/preferences";
@@ -47,11 +48,13 @@ export function Pressable({
 }: PressableProps) {
 	const { navigate } = useNavigation();
 	const { hapticFeedback } = usePreferencesStore();
+	const { currentLanguage } = useLanguage();
 
 	function invokeTrackEvent() {
 		if (eventName) {
 			mixpanelTrack(eventName, {
 				platform: Platform.OS,
+				language: currentLanguage,
 				...(eventProperties || {}),
 			});
 		}

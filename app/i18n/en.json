@@ -7,6 +7,12 @@
 				"goToSettings": "Go to settings",
 				"createNewGroup": "Create new group"
 			}
+		},
+		"settings": {
+			"header": "Settings",
+			"a11y": {
+				"backToHome": "Back to the home screen"
+			}
 		}
 	}
 }
