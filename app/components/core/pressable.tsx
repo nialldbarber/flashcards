@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import type {
 	GestureResponderEvent,
 	PressableProps as NativePressableProps,
@@ -7,6 +8,7 @@ import HapticFeedback, {
 	type HapticFeedbackTypes,
 } from "react-native-haptic-feedback";
 
+import type { RootStackRouteNames } from "#/app/navigation/types";
 import { mixpanelTrack } from "#/app/services/mixpanel";
 import { usePreferencesStore } from "#/app/store/preferences";
 import type { TrackingEvents } from "#/app/tracking/events";
@@ -31,6 +33,7 @@ export interface PressableProps extends NativePressableProps {
 	forceHaptic?: boolean;
 	eventName?: TrackingEvents;
 	eventProperties?: Record<string, unknown>;
+	routeName?: RootStackRouteNames;
 }
 
 export function Pressable({
@@ -38,9 +41,11 @@ export function Pressable({
 	forceHaptic = false,
 	eventName,
 	eventProperties,
+	routeName: navigateScreen,
 	children,
 	...rest
 }: PressableProps) {
+	const { navigate } = useNavigation();
 	const { hapticFeedback } = usePreferencesStore();
 
 	function invokeTrackEvent() {
@@ -58,9 +63,16 @@ export function Pressable({
 		}
 	}
 
+	function invokeNavigate() {
+		if (navigateScreen) {
+			navigate(navigateScreen);
+		}
+	}
+
 	function handleOnPress() {
 		invokeHapticFeedback();
 		invokeTrackEvent();
+		invokeNavigate();
 
 		if (onPress) {
 			onPress();

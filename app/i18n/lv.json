@@ -1,3 +1,12 @@
 {
-	"app-title": "Vienkāršas atmiņas kartiņas"
+	"app-title": "Vienkāršas atmiņas kartiņas",
+	"screens": {
+		"home": {
+			"header": "Vienkāršas atmiņas kartiņas",
+			"a11y": {
+				"goToSettings": "Atver iestatījumus",
+				"createNewGroup": "Izveidot jaunu grupu"
+			}
+		}
+	}
 }

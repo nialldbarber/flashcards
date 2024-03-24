@@ -29,6 +29,24 @@ export const atoms = {
 	justifyCenter: {
 		justifyContent: "center",
 	},
+	justifyBetween: {
+		justifyContent: "space-between",
+	},
+	justifyAround: {
+		justifyContent: "space-around",
+	},
+	justifyEnd: {
+		justifyContent: "flex-end",
+	},
+	justifyStart: {
+		justifyContent: "flex-start",
+	},
+	itemsStart: {
+		alignItems: "flex-start",
+	},
+	itemsEnd: {
+		alignItems: "flex-end",
+	},
 	itemsCenter: {
 		alignItems: "center",
 	},
@@ -46,6 +64,15 @@ export const atoms = {
 	 */
 	px5: {
 		paddingHorizontal: 5,
+	},
+	/**
+	 * Margin
+	 */
+	mx5: {
+		marginHorizontal: 5,
+	},
+	my5: {
+		marginVertical: 5,
 	},
 	/**
 	 * Height
