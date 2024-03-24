@@ -1,6 +1,7 @@
 {
 	"extends": "@react-native/typescript-config/tsconfig.json",
 	"compilerOptions": {
+		"strict": true,
 		"module": "ESNext",
 		"baseUrl": ".",
 		"paths": {
@@ -8,4 +9,3 @@
 		}
 	}
 }
-// 3rd April: 8:30 and lunch time - 18:00 // Heather
