@@ -45,6 +45,7 @@ export function Pressable({
 	eventProperties,
 	routeName,
 	routeParams,
+	style,
 	children,
 	...rest
 }: PressableProps) {

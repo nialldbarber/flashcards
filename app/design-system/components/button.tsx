@@ -12,9 +12,8 @@ import { atoms as a } from "#/app/design-system/atoms";
 import { Loader } from "#/app/design-system/components/loader";
 import type { BaseTextProps } from "#/app/design-system/components/text";
 import { Text } from "#/app/design-system/components/text";
+import { flatten } from "#/app/design-system/utils/flatten";
 import { useButtonAnimation } from "#/app/hooks/useButtonAnimation";
-
-import { flatten } from "../utils/flatten";
 
 export type Variant =
 	| "primary"
@@ -30,7 +29,7 @@ interface ButtonProps extends PressableProps, BaseTextProps {
 	shape?: Shape;
 	isDisabled?: boolean;
 	isPending?: boolean;
-	children: string;
+	children: string | JSX.Element;
 	buttonStyles?: ViewStyle;
 }
 
@@ -54,7 +53,6 @@ export function Button(props: ButtonProps) {
 		children,
 		weight,
 		size,
-		color,
 		buttonStyles,
 		...rest
 	} = updatedProps;
@@ -77,7 +75,9 @@ export function Button(props: ButtonProps) {
 	}, [isPending, loader]);
 
 	return (
-		<Animated.View style={animatedStyle}>
+		<Animated.View
+			style={flatten([a.itemsCenter, a.justifyCenter, animatedStyle])}
+		>
 			<Pressable
 				{...rest}
 				style={[
@@ -94,7 +94,7 @@ export function Button(props: ButtonProps) {
 				accessibilityState={{ disabled: isDisabled, busy: isPending }}
 			>
 				<View style={a.flexRow}>
-					<Text size={size} weight={weight} color={color}>
+					<Text size={size} weight={weight}>
 						{children}
 					</Text>
 				</View>

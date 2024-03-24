@@ -152,6 +152,12 @@ export const atoms = {
 	my5: {
 		marginVertical: 5,
 	},
+	my6: {
+		marginVertical: 24,
+	},
+	my7: {
+		marginVertical: 28,
+	},
 	mt1: {
 		marginTop: 4,
 	},
@@ -278,6 +284,9 @@ export const atoms = {
 	/**
 	 * Width
 	 */
+	wFull: {
+		width: "100%",
+	},
 	w0: {
 		height: 0,
 	},
@@ -409,5 +418,17 @@ export const atoms = {
 	},
 	text6xl: {
 		fontSize: 64,
+	},
+	/**
+	 * Z-index
+	 */
+	z0: {
+		zIndex: 0,
+	},
+	z10: {
+		zIndex: 10,
+	},
+	z12: {
+		zIndex: 12,
 	},
 } as const;
