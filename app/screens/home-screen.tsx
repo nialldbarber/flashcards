@@ -1,5 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Canvas, Circle } from "@shopify/react-native-skia";
 import { AddCircle, Setting2 } from "iconsax-react-native";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
 	FlatList,
@@ -8,55 +11,81 @@ import {
 	View,
 	useWindowDimensions,
 } from "react-native";
-
-import { Pressable } from "#/app/components/core/pressable";
-import { List } from "#/app/components/list";
-import { atoms as a } from "#/app/design-system/atoms";
-import { Layout } from "#/app/design-system/components/scroll-layout";
-import { Text } from "#/app/design-system/components/text";
-import { flatten } from "#/app/design-system/utils/flatten";
-import { useFlashcardsStore } from "#/app/store/flashcards";
-import { Canvas, Circle } from "@shopify/react-native-skia";
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
 	withDelay,
 	withTiming,
 } from "react-native-reanimated";
-import { Button } from "../design-system/components/button";
+import { z } from "zod";
+
+import { Pressable } from "#/app/components/core/pressable";
+import { List } from "#/app/components/list";
+import { atoms as a } from "#/app/design-system/atoms";
+import { Button } from "#/app/design-system/components/button";
+import { Layout } from "#/app/design-system/components/scroll-layout";
+import { Text } from "#/app/design-system/components/text";
+import { flatten } from "#/app/design-system/utils/flatten";
+import { useFlashcardsStore } from "#/app/store/flashcards";
+
+const groupSchema = z.object({
+	name: z.string().min(1).max(30),
+	// emoji: z.string().emoji(),
+});
+export type Group = z.infer<typeof groupSchema>;
+
+const TRANSITION_DURATION = 450;
+const ICON_SIZE = 70;
+const ICON_SIZE_HALF = ICON_SIZE / 2;
 
 export function HomeScreen() {
 	const { t } = useTranslation();
-	const { groups } = useFlashcardsStore();
+	const { groups, addGroup } = useFlashcardsStore();
 	const [isFocused, setIsFocused] = useState(false);
-
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
 	const { width, height } = useWindowDimensions();
 	const r = useSharedValue(0);
-
 	const visibility = useSharedValue(1);
 	const offscreenVisibility = useSharedValue(0);
 
-	function invokeCreateGroup() {
+	const {
+		control,
+		handleSubmit,
+		formState: { errors, isSubmitting, isSubmitSuccessful },
+	} = useForm<Group>({
+		resolver: zodResolver(groupSchema),
+	});
+
+	function invokeOpenGroupForm() {
 		const diagonal = Math.sqrt(width * width + height * height);
 
 		setIsModalOpen(!isModalOpen);
 		if (isModalOpen) {
-			r.value = withTiming(0, { duration: 450 });
+			r.value = withTiming(0, { duration: TRANSITION_DURATION });
 			visibility.value = withDelay(
 				100,
-				withTiming(1, { duration: 450 }),
+				withTiming(1, { duration: TRANSITION_DURATION }),
 			);
-			offscreenVisibility.value = withTiming(0, { duration: 450 });
+			offscreenVisibility.value = withTiming(0, {
+				duration: TRANSITION_DURATION,
+			});
 		} else {
-			r.value = withTiming(diagonal * 1, { duration: 450 });
-			visibility.value = withTiming(0, { duration: 450 });
+			r.value = withTiming(diagonal * 1, {
+				duration: TRANSITION_DURATION,
+			});
+			visibility.value = withTiming(0, {
+				duration: TRANSITION_DURATION,
+			});
 			offscreenVisibility.value = withDelay(
 				100,
-				withTiming(1, { duration: 450 }),
+				withTiming(1, { duration: TRANSITION_DURATION }),
 			);
 		}
+	}
+
+	function invokeCreateGroup({ name, emoji }: Group) {
+		console.log({ name, emoji });
+		// addGroup(data);
 	}
 
 	const animatedStyle = useAnimatedStyle(() => ({
@@ -67,7 +96,7 @@ export function HomeScreen() {
 	}));
 
 	const noGroupsExist = groups.length === 0;
-	const calculateLeft = width / 2 - 35;
+	const calculateLeft = width / 2 - ICON_SIZE_HALF;
 
 	return (
 		<>
@@ -121,6 +150,7 @@ export function HomeScreen() {
 										? a.textSlate950.color
 										: a.textSlate50.color
 								}
+								onChangeText={() => {}}
 								onFocus={() => {
 									setIsFocused(true);
 								}}
@@ -179,17 +209,20 @@ export function HomeScreen() {
 				style={flatten([
 					a.absolute,
 					a.bottom10,
-					a.right8,
-					{ left: calculateLeft },
 					a.z12,
+					{ left: calculateLeft },
 				])}
 			>
 				<Button
 					// eventName="CREATE_NEW_GROUP"
 					aria-label={t("screens.home.a11y.createNewGroup")}
-					onPress={invokeCreateGroup}
+					onPress={invokeOpenGroupForm}
 				>
-					<AddCircle size="70" color="#FF8A65" variant="Bulk" />
+					<AddCircle
+						size={ICON_SIZE}
+						color="#FF8A65"
+						variant="Bulk"
+					/>
 				</Button>
 			</View>
 			<Animated.View
@@ -198,31 +231,44 @@ export function HomeScreen() {
 					flatten([
 						a.absolute,
 						a.right8,
-						{ left: 20, top: 200, right: 20 },
+						a.left5,
+						a.right5,
 						a.z12,
 						isModalOpen ? a.z12 : a.z0,
+						{ top: 200 },
 					]),
 				]}
 			>
-				<Text>Add a new group:</Text>
-				<TextInput
-					style={flatten([
-						isFocused ? a.bgWhite : a.bgSlate800,
-						a.roundedLg,
-						a.p4,
-						a.textLg,
-					])}
-					placeholder={t("screens.home.searchPlaceholderText")}
-					placeholderTextColor={
-						isFocused ? a.textSlate950.color : a.textSlate50.color
-					}
-					onFocus={() => {
-						setIsFocused(true);
-					}}
-					onBlur={() => {
-						setIsFocused(false);
-					}}
+				<Text>{t("screens.home.addNewGroup")}</Text>
+				<Controller
+					control={control}
+					render={({ field: { onChange, value } }) => (
+						<TextInput
+							value={value}
+							style={flatten([
+								isFocused ? a.bgWhite : a.bgSlate800,
+								a.roundedLg,
+								a.p4,
+								a.textLg,
+							])}
+							onChangeText={(text) => onChange(text)}
+							placeholder={t("screens.home.addNewGroupPlaceholder")}
+							placeholderTextColor={
+								isFocused ? a.textSlate950.color : a.textSlate50.color
+							}
+							onFocus={() => {
+								setIsFocused(true);
+							}}
+							onBlur={() => {
+								setIsFocused(false);
+							}}
+						/>
+					)}
+					name="name"
 				/>
+				<Button onPress={handleSubmit(invokeCreateGroup)}>
+					Create Group
+				</Button>
 			</Animated.View>
 		</>
 	);

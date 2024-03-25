@@ -8,7 +8,9 @@
 				"createNewGroup": "Create new group"
 			},
 			"searchPlaceholderText": "Search for a group",
-			"noGroups": "No groups found"
+			"noGroups": "No groups found",
+			"addNewGroup": "Add new group:",
+			"addNewGroupPlaceholder": "Enter group name"
 		},
 		"settings": {
 			"header": "Settings",

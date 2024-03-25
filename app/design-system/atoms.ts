@@ -350,6 +350,15 @@ export const atoms = {
 	top10: {
 		top: 40,
 	},
+	right4: {
+		right: 16,
+	},
+	right5: {
+		right: 20,
+	},
+	right6: {
+		right: 24,
+	},
 	right7: {
 		right: 28,
 	},
@@ -358,6 +367,12 @@ export const atoms = {
 	},
 	right10: {
 		right: 40,
+	},
+	left4: {
+		left: 16,
+	},
+	left5: {
+		left: 20,
 	},
 	bottom3: {
 		bottom: 12,

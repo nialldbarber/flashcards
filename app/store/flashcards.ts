@@ -7,7 +7,7 @@ import { storeMiddleware } from "#/app/utils/store-middleware";
 export type Group = {
 	id: string;
 	name: string;
-	flashcards: Flashcard[];
+	flashcards?: Flashcard[];
 	emoji: string;
 };
 
