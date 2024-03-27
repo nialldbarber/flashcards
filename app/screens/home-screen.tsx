@@ -17,6 +17,8 @@ import Animated, {
 	withDelay,
 	withTiming,
 } from "react-native-reanimated";
+import EmojiPicker from "rn-emoji-picker";
+import { emojis } from "rn-emoji-picker/dist/data";
 import { z } from "zod";
 
 import { Pressable } from "#/app/components/core/pressable";
@@ -29,8 +31,11 @@ import { flatten } from "#/app/design-system/utils/flatten";
 import { useFlashcardsStore } from "#/app/store/flashcards";
 
 const groupSchema = z.object({
-	name: z.string().min(1).max(30),
-	// emoji: z.string().emoji(),
+	name: z
+		.string()
+		.min(1, { message: "Name must be at least 1 character long." })
+		.max(30, { message: "Name must not exceed 30 characters." }),
+	emoji: z.string().emoji({ message: "Must be a valid emoji." }),
 });
 export type Group = z.infer<typeof groupSchema>;
 
@@ -217,6 +222,7 @@ export function HomeScreen() {
 					// eventName="CREATE_NEW_GROUP"
 					aria-label={t("screens.home.a11y.createNewGroup")}
 					onPress={invokeOpenGroupForm}
+					shape="circle"
 				>
 					<AddCircle
 						size={ICON_SIZE}
@@ -256,19 +262,38 @@ export function HomeScreen() {
 							placeholderTextColor={
 								isFocused ? a.textSlate950.color : a.textSlate50.color
 							}
-							onFocus={() => {
-								setIsFocused(true);
-							}}
-							onBlur={() => {
-								setIsFocused(false);
-							}}
+							onFocus={() => setIsFocused(true)}
+							onBlur={() => setIsFocused(false)}
 						/>
 					)}
 					name="name"
 				/>
+				<Text styles={flatten([a.textSm])} isError>
+					{errors.name?.message}
+				</Text>
 				<Button onPress={handleSubmit(invokeCreateGroup)}>
 					Create Group
 				</Button>
+				<View
+					style={flatten([
+						a.absolute,
+						a.left0,
+						a.right0,
+						a.top0,
+						a.z10,
+					])}
+				>
+					<EmojiPicker
+						emojis={emojis}
+						// recent={recent}
+						autoFocus
+						loading={false} // spinner for if your emoji data or recent store is async
+						darkMode
+						perLine={7}
+						onSelect={console.log}
+						// onChangeRecent={setRecent}
+					/>
+				</View>
 			</Animated.View>
 		</>
 	);

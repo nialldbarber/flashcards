@@ -22,7 +22,7 @@ export type Variant =
 	| "link"
 	| "destructive";
 
-export type Shape = "small" | "medium" | "large";
+export type Shape = "small" | "medium" | "large" | "circle";
 
 interface ButtonProps extends PressableProps, BaseTextProps {
 	variant?: Variant;
@@ -59,8 +59,8 @@ export function Button(props: ButtonProps) {
 
 	const { onPress, animatedStyle } = useButtonAnimation();
 	const accessibilityLabel = `${children} button`;
+	const isCircleButton = shape !== "circle";
 
-	// Animations
 	const loader = useSharedValue(0);
 	const loaderStyle = useAnimatedStyle(() => ({
 		opacity: loader.value,
@@ -80,13 +80,18 @@ export function Button(props: ButtonProps) {
 		>
 			<Pressable
 				{...rest}
-				style={[
+				style={flatten([
 					a.relative,
 					a.itemsCenter,
 					a.justifyCenter,
-					a.roundedLg,
 					buttonStyles,
-				]}
+					isCircleButton && {
+						...a.bgBlue500,
+						...a.h15,
+						...a.px6,
+						...a.roundedFull,
+					},
+				])}
 				onPressIn={() => onPress("in")}
 				onPressOut={() => onPress("out")}
 				accessibilityRole="button"

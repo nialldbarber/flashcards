@@ -24,6 +24,7 @@ export type BaseTextProps = {
 	styles?: TextStyle;
 	withEmoji?: boolean;
 	a11yHint?: string;
+	isError?: boolean;
 };
 
 export interface TextProps extends NativeTextProps, BaseTextProps {}
@@ -35,6 +36,7 @@ export function Text({
 	withEmoji = false,
 	a11yHint,
 	styles,
+	isError = false,
 	children,
 }: TextProps) {
 	const renderChildren = useMemo(() => {
@@ -57,15 +59,19 @@ export function Text({
 		});
 	}, [children, withEmoji]);
 
-	const _styles = StyleSheet.create({
-		text: {
-			...(level === "heading"
-				? typeHierarchy.heading[size]
-				: typeHierarchy.text[size]),
-			fontFamily: fontWeight[weight],
-			color: a.textSlate50.color,
-		},
-	});
+	const _styles = useMemo(
+		() =>
+			StyleSheet.create({
+				text: {
+					...(level === "heading"
+						? typeHierarchy.heading[size]
+						: typeHierarchy.text[size]),
+					fontFamily: fontWeight[weight],
+					color: isError ? a.textRed500.color : a.textSlate50.color,
+				},
+			}),
+		[level, size, weight, isError],
+	);
 
 	return (
 		<NativeText

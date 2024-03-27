@@ -11,6 +11,9 @@ export const atoms = {
 	textSlate950: {
 		color: "rgb(2 6 23)",
 	},
+	textRed500: {
+		color: "rgb(239 68 68)",
+	},
 	/**
 	 * Background colors
 	 */
@@ -281,6 +284,15 @@ export const atoms = {
 	h12: {
 		height: 48,
 	},
+	h13: {
+		height: 52,
+	},
+	h14: {
+		height: 56,
+	},
+	h15: {
+		height: 60,
+	},
 	/**
 	 * Width
 	 */
@@ -332,6 +344,18 @@ export const atoms = {
 	/**
 	 * Top / Right / Bottom / Left
 	 */
+	top0: {
+		top: 0,
+	},
+	top1: {
+		top: 4,
+	},
+	top2: {
+		top: 8,
+	},
+	top3: {
+		top: 12,
+	},
 	top4: {
 		top: 16,
 	},
@@ -349,6 +373,18 @@ export const atoms = {
 	},
 	top10: {
 		top: 40,
+	},
+	right0: {
+		right: 0,
+	},
+	right1: {
+		right: 4,
+	},
+	right2: {
+		right: 8,
+	},
+	right3: {
+		right: 12,
 	},
 	right4: {
 		right: 16,
@@ -368,11 +404,32 @@ export const atoms = {
 	right10: {
 		right: 40,
 	},
+	left0: {
+		left: 0,
+	},
+	left1: {
+		left: 4,
+	},
+	left2: {
+		left: 8,
+	},
+	left3: {
+		left: 12,
+	},
 	left4: {
 		left: 16,
 	},
 	left5: {
 		left: 20,
+	},
+	bottom0: {
+		bottom: 0,
+	},
+	bottom1: {
+		bottom: 4,
+	},
+	bottom2: {
+		bottom: 8,
 	},
 	bottom3: {
 		bottom: 12,
