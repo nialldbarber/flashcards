@@ -58,9 +58,15 @@ export const atoms = {
 	bgRed: {
 		backgroundColor: "rgb(239 68 68)",
 	},
+	bgDarkBlue: {
+		backgroundColor: "#0f172a",
+	},
 	/**
 	 * Flexbox
 	 */
+	flex: {
+		display: "flex",
+	},
 	flex1: {
 		flex: 1,
 	},
@@ -430,6 +436,12 @@ export const atoms = {
 	/**
 	 * Top / Right / Bottom / Left
 	 */
+	inset0: {
+		top: 0,
+		right: 0,
+		bottom: 0,
+		left: 0,
+	},
 	top0: {
 		top: 0,
 	},
@@ -537,6 +549,18 @@ export const atoms = {
 	},
 	bottom12: {
 		bottom: 48,
+	},
+	bottom16: {
+		bottom: 64,
+	},
+	bottom20: {
+		bottom: 80,
+	},
+	bottom24: {
+		bottom: 96,
+	},
+	bottom28: {
+		bottom: 112,
 	},
 	/**
 	 * Border radius
@@ -689,6 +713,27 @@ export const atoms = {
 		borderWidth: 8,
 	},
 	/**
+	 * Font family
+	 */
+	fontLight: {
+		fontFamily: "Cosmica-Light",
+	},
+	fontRegular: {
+		fontFamily: "Cosmica-Regular",
+	},
+	fontMedium: {
+		fontFamily: "Cosmica-Medium",
+	},
+	fontSemiBold: {
+		fontFamily: "Cosmica-SemiBold",
+	},
+	fontBold: {
+		fontFamily: "Cosmica-Bold",
+	},
+	fontExtraBold: {
+		fontFamily: "Cosmica-ExtraBold",
+	},
+	/**
 	 * Text size
 	 */
 	textXs: {
@@ -722,6 +767,12 @@ export const atoms = {
 		fontSize: 64,
 	},
 	/**
+	 * Text alignment
+	 */
+	textCenter: {
+		textAlign: "center",
+	},
+	/**
 	 * Z-index
 	 */
 	_z1: {
@@ -744,5 +795,11 @@ export const atoms = {
 	 */
 	fillSpace: {
 		...StyleSheet.absoluteFillObject,
+	},
+	/**
+	 * Visibility
+	 */
+	backfaceVisible: {
+		backfaceVisibility: "visible",
 	},
 } as const;

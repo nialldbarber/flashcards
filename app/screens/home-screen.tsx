@@ -5,12 +5,7 @@ import { useCallback, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import {
-	FlatList,
-	TextInput,
-	View,
-	useWindowDimensions,
-} from "react-native";
+import { FlatList, View, useWindowDimensions } from "react-native";
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
@@ -28,8 +23,8 @@ import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Text } from "#/app/design-system/components/text";
 import { flatten } from "#/app/design-system/utils/flatten";
 import { useFlashcardsStore } from "#/app/store/flashcards";
-import { DebugLayout } from "#/app/utils/debug-layout";
 import { useNavigation } from "@react-navigation/native";
+import { Input } from "../design-system/components/input";
 import { Spacer } from "../design-system/components/spacer";
 
 const groupSchema = z.object({
@@ -54,9 +49,10 @@ export function HomeScreen() {
 	const { t } = useTranslation();
 	const { navigate } = useNavigation();
 	const { groups, addGroup } = useFlashcardsStore();
-	const [isFocused, setIsFocused] = useState(false);
-	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { width, height } = useWindowDimensions();
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	const r = useSharedValue(0);
 	const visibility = useSharedValue(1);
 	const offscreenVisibility = useSharedValue(0);
@@ -153,112 +149,91 @@ export function HomeScreen() {
 					isModalOpen ? a.z10 : a._z2,
 				])}
 			>
-				<Canvas style={{ width: width, height: height }}>
-					<Circle cx={width / 2} cy={height} r={r} color="#0f172a" />
+				<Canvas style={{ width, height }}>
+					<Circle
+						cx={width / 2}
+						cy={height}
+						r={r}
+						color={a.bgDarkBlue.backgroundColor}
+					/>
 				</Canvas>
 			</View>
 			<>
 				<Layout scrollable={false}>
-					<DebugLayout>
-						<Animated.View style={animatedStyle}>
-							<View
-								style={flatten([
-									a.itemsStart,
-									a.justifyBetween,
-									a.flexRow,
-									a.my5,
-								])}
+					{/* <DebugLayout> */}
+					<Animated.View style={animatedStyle}>
+						<View
+							style={flatten([
+								a.itemsStart,
+								a.justifyBetween,
+								a.flexRow,
+								a.my5,
+							])}
+						>
+							<Text level="heading" size="30px">
+								{t("app-title")}
+							</Text>
+							<Pressable
+								routeName="SettingsModal"
+								eventName="NAVIGATED_TO_SETTINGS"
+								eventProperties={{ from: "HomeScreen" }}
+								aria-label={t("screens.home.a11y.goToSettings")}
 							>
-								<Text level="heading" size="30px">
-									{t("app-title")}
-								</Text>
-								<Pressable
-									routeName="SettingsModal"
-									eventName="NAVIGATED_TO_SETTINGS"
-									eventProperties={{ from: "HomeScreen" }}
-									aria-label={t("screens.home.a11y.goToSettings")}
-								>
-									<Setting2
-										size="40"
-										color="#FF8A65"
-										variant="Bulk"
-									/>
-								</Pressable>
-							</View>
+								<Setting2 size="40" color="#FF8A65" variant="Bulk" />
+							</Pressable>
+						</View>
 
-							<View style={flatten([a.mt4])}>
-								<TextInput
-									style={flatten([
-										isFocused ? a.bgWhite : a.bgSlate800,
-										a.roundedLg,
-										a.p4,
-										a.textLg,
-									])}
-									placeholder={t(
-										"screens.home.searchPlaceholderText",
+						<View style={flatten([a.mt4])}>
+							<Input value="" onChange={() => {}} />
+						</View>
+
+						<View style={flatten([a.mt5])}>
+							{noGroupsExist ? (
+								<View>
+									<Text>{t("screens.home.noGroups")}</Text>
+								</View>
+							) : (
+								<FlatList
+									data={groups}
+									keyExtractor={(item) => item.id}
+									renderItem={({ item, index }) => (
+										<List index={index}>
+											<Pressable
+												key={item.id}
+												style={flatten([
+													a.flexRow,
+													a.itemsCenter,
+													a.justifyCenter,
+													a.py4,
+													a.mb6,
+													a.roundedFull,
+													{
+														borderColor: "#9162c0",
+														borderWidth: 2,
+														backgroundColor: "#9162c025",
+													},
+												])}
+												routeName="CardList"
+												routeParams={{
+													name: item.name,
+													emoji: item.emoji,
+													flashcards: item.flashcards,
+												}}
+											>
+												<Text withEmoji level="heading" size="23px">
+													{item.emoji}
+												</Text>
+												<Text withEmoji level="heading" size="23px">
+													{item.name}
+												</Text>
+											</Pressable>
+										</List>
 									)}
-									placeholderTextColor={
-										isFocused
-											? a.textSlate950.color
-											: a.textSlate50.color
-									}
-									onChangeText={() => {}}
-									onFocus={() => {
-										setIsFocused(true);
-									}}
-									onBlur={() => {
-										setIsFocused(false);
-									}}
 								/>
-							</View>
-
-							<View style={flatten([a.mt5])}>
-								{noGroupsExist ? (
-									<View>
-										<Text>{t("screens.home.noGroups")}</Text>
-									</View>
-								) : (
-									<FlatList
-										data={groups}
-										keyExtractor={(item) => item.id}
-										renderItem={({ item, index }) => (
-											<List index={index}>
-												<Pressable
-													key={item.id}
-													style={flatten([
-														a.flexRow,
-														a.itemsCenter,
-														a.justifyCenter,
-														a.py4,
-														a.mb6,
-														a.roundedFull,
-														{
-															borderColor: "#9162c0",
-															borderWidth: 2,
-															backgroundColor: "#9162c025",
-														},
-													])}
-													routeName="CardList"
-													routeParams={{
-														name: item.name,
-														emoji: item.emoji,
-														flashcards: item.flashcards,
-													}}
-												>
-													<Text withEmoji level="heading" size="23px">
-														{item.emoji}
-													</Text>
-													<Text withEmoji level="heading" size="23px">
-														{item.name}
-													</Text>
-												</Pressable>
-											</List>
-										)}
-									/>
-								)}
-							</View>
-						</Animated.View>
-					</DebugLayout>
+							)}
+						</View>
+					</Animated.View>
+					{/* </DebugLayout> */}
 				</Layout>
 			</>
 			<View
@@ -301,22 +276,7 @@ export function HomeScreen() {
 				<Controller
 					control={control}
 					render={({ field: { onChange, value } }) => (
-						<TextInput
-							value={value}
-							style={flatten([
-								isFocused ? a.bgWhite : a.bgSlate800,
-								a.roundedLg,
-								a.p4,
-								a.textLg,
-							])}
-							onChangeText={(text) => onChange(text)}
-							placeholder={t("screens.home.addNewGroupPlaceholder")}
-							placeholderTextColor={
-								isFocused ? a.textSlate950.color : a.textSlate50.color
-							}
-							onFocus={() => setIsFocused(true)}
-							onBlur={() => setIsFocused(false)}
-						/>
+						<Input value={value} onChange={onChange} />
 					)}
 					name="name"
 				/>
@@ -324,22 +284,7 @@ export function HomeScreen() {
 				<Controller
 					control={control}
 					render={({ field: { onChange, value } }) => (
-						<TextInput
-							value={value}
-							style={flatten([
-								isFocused ? a.bgWhite : a.bgSlate800,
-								a.roundedLg,
-								a.p4,
-								a.textLg,
-							])}
-							onChangeText={(text) => onChange(text)}
-							placeholder={t("screens.home.addGroupEmoji")}
-							placeholderTextColor={
-								isFocused ? a.textSlate950.color : a.textSlate50.color
-							}
-							onFocus={() => setIsFocused(true)}
-							onBlur={() => setIsFocused(false)}
-						/>
+						<Input value={value} onChange={onChange} />
 					)}
 					name="emoji"
 				/>

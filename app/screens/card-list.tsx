@@ -2,8 +2,15 @@ import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ArrowLeft } from "iconsax-react-native";
 import { produce } from "immer";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { View } from "react-native";
+import Animated, {
+	Extrapolation,
+	interpolate,
+	useAnimatedStyle,
+	useSharedValue,
+	withSpring,
+} from "react-native-reanimated";
 
 import { Pressable } from "#/app/components/core/pressable";
 import { atoms as a } from "#/app/design-system/atoms";
@@ -37,13 +44,12 @@ const flashcardGameReducer = produce((draft, action) => {
 			if (draft.currentCardIndex < draft.cards.length - 1) {
 				draft.currentCardIndex += 1;
 			} else {
-				draft.gameEnded = true; // Ensure this only triggers at the true end
+				draft.gameEnded = true;
 			}
 			break;
 		case END_GAME:
 			draft.gameStarted = false;
 			break;
-		// Add any additional cases here
 	}
 });
 
@@ -56,6 +62,40 @@ export function CardListScreen({
 	const noFlashcards = flashcards.length === 0;
 	const flashcardsInDeck = flashcards.length;
 
+	const [isFlipped, setIsFlipped] = useState(false);
+	const rotateY = useSharedValue(0);
+
+	const frontAnimatedStyle = useAnimatedStyle(() => {
+		const opacity = interpolate(
+			rotateY.value,
+			[0, 90],
+			[1, 0],
+			Extrapolation.CLAMP,
+		);
+		return {
+			transform: [{ rotateY: `${rotateY.value}deg` }],
+			opacity,
+		};
+	});
+
+	const backAnimatedStyle = useAnimatedStyle(() => {
+		const opacity = interpolate(
+			rotateY.value,
+			[90, 180],
+			[0, 1],
+			Extrapolation.CLAMP,
+		);
+		return {
+			transform: [{ rotateY: `${rotateY.value + 180}deg` }],
+			opacity,
+		};
+	});
+
+	const flipCard = () => {
+		setIsFlipped(!isFlipped);
+		rotateY.value = withSpring(isFlipped ? 0 : 180);
+	};
+
 	const initialState = {
 		gameStarted: false,
 		gameEnded: false,
@@ -64,21 +104,32 @@ export function CardListScreen({
 		cards: flashcards,
 	};
 
-	const [state, dispatch] = useReducer(
-		flashcardGameReducer,
-		initialState,
-	);
+	const [
+		{ gameStarted, gameEnded, currentCardIndex, score, cards },
+		dispatch,
+	] = useReducer(flashcardGameReducer, initialState);
 
 	const startGame = () => dispatch({ type: START_GAME });
 	const answerCard = (correct: boolean) =>
 		dispatch({ type: ANSWER_CARD, correct });
 	const endGame = () => dispatch({ type: END_GAME });
 
-	const currentCard = flashcards[state.currentCardIndex];
+	const currentCard = flashcards[currentCardIndex];
 
 	useEffect(() => {
 		dispatch({ type: SET_CARDS, cards: flashcards });
 	}, [flashcards]);
+
+	const cardStyles = [
+		a.absolute,
+		a.top0,
+		a.left0,
+		a.right0,
+		a.bottom28,
+		a.flex,
+		a.itemsCenter,
+		a.justifyCenter,
+	];
 
 	return (
 		<>
@@ -103,44 +154,90 @@ export function CardListScreen({
 						<Text>You have no flashcards</Text>
 					</View>
 				) : (
-					<View>
-						{state.gameStarted && !state.gameEnded && (
-							<Text
-								onPress={() => {
-									/* Handle flip card or show answer */
-								}}
+					gameStarted &&
+					!gameEnded && (
+						<View
+							style={flatten([
+								a.relative,
+								a.wFull,
+								a.hFull,
+								a.my7,
+								a.itemsCenter,
+								a.justifyCenter,
+								a.p5,
+							])}
+						>
+							<Pressable
+								onPress={flipCard}
+								style={flatten([...cardStyles])}
 							>
-								{currentCard.question}
-							</Text>
-						)}
-					</View>
+								<Animated.View
+									style={[
+										flatten([
+											...cardStyles,
+											a.bgOrangeFaded,
+											a.roundedXl,
+										]),
+										frontAnimatedStyle,
+									]}
+								>
+									<Text style={flatten([a.textWhite, a.textCenter])}>
+										{currentCard.question}
+									</Text>
+								</Animated.View>
+								<Animated.View
+									style={[
+										flatten([
+											...cardStyles,
+											a.bgSlate800,
+											a.roundedXl,
+										]),
+										backAnimatedStyle,
+									]}
+								>
+									<Text style={flatten([a.textWhite, a.textCenter])}>
+										{currentCard.answer}
+									</Text>
+								</Animated.View>
+							</Pressable>
+						</View>
+					)
 				)}
 			</Layout>
 			<View style={flatten([a.px6, a.pt5, a.pb10])}>
-				{flashcardsInDeck && !state.gameStarted ? (
+				{flashcardsInDeck && !gameStarted ? (
 					<Button onPress={startGame}>Start</Button>
 				) : null}
 				<Spacer size="16px" />
-				{!state.gameStarted ? (
+				{!gameStarted ? (
 					<Button variant="secondary">Add</Button>
 				) : null}
-				{state.gameStarted && !state.gameEnded && (
+				{gameStarted && !gameEnded && (
 					<>
-						<Button onPress={() => answerCard(true)}>Correct</Button>
+						<Button
+							onPress={() => {
+								flipCard();
+								answerCard(true);
+							}}
+						>
+							Correct
+						</Button>
 						<Spacer size="16px" />
 						<Button
 							variant="secondary"
-							onPress={() => answerCard(false)}
+							onPress={() => {
+								answerCard(false);
+								flipCard();
+							}}
 						>
 							Incorrect
 						</Button>
 					</>
 				)}
-
-				{state.gameEnded && (
+				{gameEnded && (
 					<>
 						<Text>
-							Your score: {state.score}/{state.cards.length}
+							Your score: {score}/{cards.length}
 						</Text>
 						<Button onPress={startGame}>Restart Game</Button>
 					</>

@@ -33,7 +33,7 @@ export function Navigation() {
 					<Screen
 						name="SettingsModal"
 						component={SettingsScreen}
-						options={options}
+						options={{ ...options, contentStyle: a.bgDarkBlue }}
 					/>
 				</Group>
 			</Navigator>
