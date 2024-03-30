@@ -56,7 +56,7 @@ export function Button(props: ButtonProps) {
 		weight,
 		size,
 		buttonStyles,
-		animationType = "spin",
+		animationType = "standard",
 		onPress,
 		...rest
 	} = updatedProps;

@@ -274,6 +274,7 @@ export function HomeScreen() {
 					aria-label={t("screens.home.a11y.createNewGroup")}
 					onPress={invokeOpenGroupForm}
 					shape="circle"
+					animationType="spin"
 				>
 					<AddCircle
 						size={ICON_SIZE}
@@ -345,10 +346,7 @@ export function HomeScreen() {
 				<Text styles={flatten([a.textSm])} isError>
 					{errors.emoji?.message}
 				</Text>
-				<Button
-					onPress={handleSubmit(invokeCreateGroup)}
-					animationType="spin"
-				>
+				<Button onPress={handleSubmit(invokeCreateGroup)}>
 					{t("screens.home.createNewGroupButton")}
 				</Button>
 			</Animated.View>
