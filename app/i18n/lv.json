@@ -7,7 +7,12 @@
 				"goToSettings": "Atver iestatījumus",
 				"createNewGroup": "Izveidot jaunu grupu"
 			},
-			"searchPlaceholderText": "Meklēt grupas"
+			"searchPlaceholderText": "Meklēt grupu",
+			"noGroups": "Grupas nav atrastas",
+			"addNewGroup": "Pievienot jaunu grupu:",
+			"addNewGroupPlaceholder": "Ievadi grupas nosaukumu",
+			"addGroupEmoji": "Pievienot emociju",
+			"createNewGroupButton": "Izveidot grupu"
 		},
 		"settings": {
 			"header": "Iestatījumi",

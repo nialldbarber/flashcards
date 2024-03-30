@@ -13,6 +13,7 @@ import { Loader } from "#/app/design-system/components/loader";
 import type { BaseTextProps } from "#/app/design-system/components/text";
 import { Text } from "#/app/design-system/components/text";
 import { flatten } from "#/app/design-system/utils/flatten";
+import type { ButtonAnimationType } from "#/app/hooks/useButtonAnimation";
 import { useButtonAnimation } from "#/app/hooks/useButtonAnimation";
 
 export type Variant =
@@ -31,6 +32,7 @@ interface ButtonProps extends PressableProps, BaseTextProps {
 	isPending?: boolean;
 	children: string | JSX.Element;
 	buttonStyles?: ViewStyle;
+	animationType?: ButtonAnimationType;
 }
 
 function disableOnPending(props: ButtonProps) {
@@ -54,12 +56,16 @@ export function Button(props: ButtonProps) {
 		weight,
 		size,
 		buttonStyles,
+		animationType = "spin",
+		onPress,
 		...rest
 	} = updatedProps;
 
-	const { onPress, animatedStyle } = useButtonAnimation();
+	const { onPressInOut, onPressSpin, style } = useButtonAnimation(
+		animationType as ButtonAnimationType,
+	);
 	const accessibilityLabel = `${children} button`;
-	const isCircleButton = shape !== "circle";
+	const isStandardButton = shape !== "circle";
 
 	const loader = useSharedValue(0);
 	const loaderStyle = useAnimatedStyle(() => ({
@@ -74,9 +80,29 @@ export function Button(props: ButtonProps) {
 		}
 	}, [isPending, loader]);
 
+	function invokeOnPress() {
+		if (onPress) {
+			onPress();
+			onPressSpin();
+		}
+	}
+
+	const variantStyles =
+		variant === "primary"
+			? { ...a.bgOrangeFaded }
+			: variant === "secondary"
+				? { ...a.bgTransparent, ...a.borderOrangeFaded, ...a.border3 }
+				: variant === "tertiary"
+					? a.bgGray50
+					: variant === "link"
+						? a.bgTransparent
+						: variant === "destructive"
+							? a.bgRed
+							: a.bgOrange;
+
 	return (
 		<Animated.View
-			style={flatten([a.itemsCenter, a.justifyCenter, animatedStyle])}
+			style={flatten([a.itemsCenter, a.justifyCenter, style])}
 		>
 			<Pressable
 				{...rest}
@@ -85,15 +111,16 @@ export function Button(props: ButtonProps) {
 					a.itemsCenter,
 					a.justifyCenter,
 					buttonStyles,
-					isCircleButton && {
-						...a.bgBlue500,
+					isStandardButton && {
+						...variantStyles,
 						...a.h15,
 						...a.px6,
 						...a.roundedFull,
 					},
 				])}
-				onPressIn={() => onPress("in")}
-				onPressOut={() => onPress("out")}
+				onPress={invokeOnPress}
+				onPressIn={() => onPressInOut("in")}
+				onPressOut={() => onPressInOut("out")}
 				accessibilityRole="button"
 				aria-label={accessibilityLabel}
 				accessibilityState={{ disabled: isDisabled, busy: isPending }}

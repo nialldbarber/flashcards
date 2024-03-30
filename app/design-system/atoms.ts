@@ -1,7 +1,12 @@
+import { StyleSheet } from "react-native";
+
 export const atoms = {
 	/**
 	 * Text colors
 	 */
+	textWhite: {
+		color: "#fff",
+	},
 	textSlate50: {
 		color: "rgb(248 250 252)",
 	},
@@ -14,9 +19,15 @@ export const atoms = {
 	textRed500: {
 		color: "rgb(239 68 68)",
 	},
+	textOrange: {
+		color: "#FF8A65",
+	},
 	/**
 	 * Background colors
 	 */
+	bgTransparent: {
+		backgroundColor: "transparent",
+	},
 	bgWhite: {
 		backgroundColor: "#fff",
 	},
@@ -34,6 +45,18 @@ export const atoms = {
 	},
 	bgSlate950: {
 		backgroundColor: "rgb(2 6 23)",
+	},
+	bgOrange: {
+		backgroundColor: "#FF8A65",
+	},
+	bgOrangeFaded: {
+		backgroundColor: "#734536",
+	},
+	bgGray50: {
+		backgroundColor: "rgb(248 250 252)",
+	},
+	bgRed: {
+		backgroundColor: "rgb(239 68 68)",
 	},
 	/**
 	 * Flexbox
@@ -145,6 +168,66 @@ export const atoms = {
 	},
 	px10: {
 		paddingHorizontal: 40,
+	},
+	pt1: {
+		paddingTop: 4,
+	},
+	pt2: {
+		paddingTop: 8,
+	},
+	pt3: {
+		paddingTop: 12,
+	},
+	pt4: {
+		paddingTop: 16,
+	},
+	pt5: {
+		paddingTop: 20,
+	},
+	pt6: {
+		paddingTop: 24,
+	},
+	pt7: {
+		paddingTop: 28,
+	},
+	pt8: {
+		paddingTop: 32,
+	},
+	pt9: {
+		paddingTop: 36,
+	},
+	pt10: {
+		paddingTop: 40,
+	},
+	pb1: {
+		paddingBottom: 4,
+	},
+	pb2: {
+		paddingBottom: 8,
+	},
+	pb3: {
+		paddingBottom: 12,
+	},
+	pb4: {
+		paddingBottom: 16,
+	},
+	pb5: {
+		paddingBottom: 20,
+	},
+	pb6: {
+		paddingBottom: 24,
+	},
+	pb7: {
+		paddingBottom: 28,
+	},
+	pb8: {
+		paddingBottom: 32,
+	},
+	pb9: {
+		paddingBottom: 36,
+	},
+	pb10: {
+		paddingBottom: 40,
 	},
 	/**
 	 * Margin
@@ -293,6 +376,9 @@ export const atoms = {
 	h15: {
 		height: 60,
 	},
+	hFull: {
+		height: "100%",
+	},
 	/**
 	 * Width
 	 */
@@ -434,6 +520,15 @@ export const atoms = {
 	bottom3: {
 		bottom: 12,
 	},
+	bottom4: {
+		bottom: 16,
+	},
+	bottom5: {
+		bottom: 20,
+	},
+	bottom6: {
+		bottom: 24,
+	},
 	bottom7: {
 		bottom: 28,
 	},
@@ -473,6 +568,126 @@ export const atoms = {
 	roundedFull: {
 		borderRadius: 9999,
 	},
+	roundedBNone: {
+		borderBottomLeftRadius: 0,
+		borderBottomRightRadius: 0,
+	},
+	roundedBSm: {
+		borderBottomLeftRadius: 2,
+		borderBottomRightRadius: 2,
+	},
+	roundedB: {
+		borderBottomLeftRadius: 4,
+		borderBottomRightRadius: 4,
+	},
+	roundedBMd: {
+		borderBottomLeftRadius: 6,
+		borderBottomRightRadius: 6,
+	},
+	roundedBLg: {
+		borderBottomLeftRadius: 8,
+		borderBottomRightRadius: 8,
+	},
+	roundedBXl: {
+		borderBottomLeftRadius: 12,
+		borderBottomRightRadius: 12,
+	},
+	roundedB2xl: {
+		borderBottomLeftRadius: 16,
+		borderBottomRightRadius: 16,
+	},
+	roundedB3xl: {
+		borderBottomLeftRadius: 24,
+		borderBottomRightRadius: 24,
+	},
+	roundedBFull: {
+		borderBottomLeftRadius: 9999,
+		borderBottomRightRadius: 9999,
+	},
+	roundedTNone: {
+		borderTopLeftRadius: 0,
+		borderTopRightRadius: 0,
+	},
+	roundedTSm: {
+		borderTopLeftRadius: 2,
+		borderTopRightRadius: 2,
+	},
+	roundedT: {
+		borderTopLeftRadius: 4,
+		borderTopRightRadius: 4,
+	},
+	roundedTMd: {
+		borderTopLeftRadius: 6,
+		borderTopRightRadius: 6,
+	},
+	roundedTLg: {
+		borderTopLeftRadius: 8,
+		borderTopRightRadius: 8,
+	},
+	roundedTXl: {
+		borderTopLeftRadius: 12,
+		borderTopRightRadius: 12,
+	},
+	roundedT2xl: {
+		borderTopLeftRadius: 16,
+		borderTopRightRadius: 16,
+	},
+	roundedT3xl: {
+		borderTopLeftRadius: 24,
+		borderTopRightRadius: 24,
+	},
+	roundedTFull: {
+		borderTopLeftRadius: 9999,
+		borderTopRightRadius: 9999,
+	},
+	/**
+	 * Border color
+	 */
+	borderTransparent: {
+		borderColor: "transparent",
+	},
+	borderBlue300: {
+		borderColor: "rgb(147 197 253)",
+	},
+	borderBlue500: {
+		borderColor: "rgb(59 130 246)",
+	},
+	borderSlate50: {
+		borderColor: "rgb(248 250 252)",
+	},
+	borderSlate800: {
+		borderColor: "rgb(30 41 59)",
+	},
+	borderSlate950: {
+		borderColor: "rgb(2 6 23)",
+	},
+	borderOrange: {
+		borderColor: "#FF8A65",
+	},
+	borderOrangeFaded: {
+		borderColor: "#734536",
+	},
+	borderRed: {
+		borderColor: "rgb(239 68 68)",
+	},
+	/**
+	 * Border width
+	 */
+	border: {
+		borderWidth: 1,
+	},
+	border2: {
+		borderWidth: 2,
+	},
+	border3: {
+		borderWidth: 3,
+	},
+	border4: {
+		borderWidth: 4,
+	},
+	border8: {
+		borderWidth: 8,
+	},
 	/**
 	 * Text size
 	 */
@@ -509,6 +724,12 @@ export const atoms = {
 	/**
 	 * Z-index
 	 */
+	_z1: {
+		zIndex: -1,
+	},
+	_z2: {
+		zIndex: -2,
+	},
 	z0: {
 		zIndex: 0,
 	},
@@ -517,5 +738,11 @@ export const atoms = {
 	},
 	z12: {
 		zIndex: 12,
+	},
+	/**
+	 * Fill space
+	 */
+	fillSpace: {
+		...StyleSheet.absoluteFillObject,
 	},
 } as const;

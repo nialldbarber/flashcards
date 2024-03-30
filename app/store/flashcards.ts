@@ -4,11 +4,14 @@ import { immer } from "zustand/middleware/immer";
 
 import { storeMiddleware } from "#/app/utils/store-middleware";
 
+type GroupDetails = Pick<Group, "id" | "name" | "emoji">;
+
 export type Group = {
 	id: string;
 	name: string;
 	flashcards?: Flashcard[];
 	emoji: string;
+	previousScore?: number;
 };
 
 export type Flashcard = {
@@ -19,10 +22,11 @@ export type Flashcard = {
 
 type FlashcardsState = {
 	groups: Group[];
-	addGroup: (group: Group) => void;
+	addGroup: (group: GroupDetails) => void;
 	removeGroup: (groupId: string) => void;
 	addFlashcard: (groupId: string, flashcard: Flashcard) => void;
 	removeFlashcard: (groupId: string, flashcardId: string) => void;
+	addPreviousScore: (groupId: string, score: number) => void;
 };
 
 const dummyData: Group[] = [
@@ -66,9 +70,13 @@ export const useFlashcardsStore = create(
 	persist(
 		immer<FlashcardsState>((set) => ({
 			groups: dummyData,
-			addGroup: (group: Group) => {
+			addGroup: (group: GroupDetails) => {
 				set((state) => {
-					state.groups.push(group);
+					const newGroup = {
+						...group,
+						flashcards: [],
+					};
+					state.groups.push(newGroup);
 				});
 			},
 			removeGroup: (groupId: string) => {
@@ -81,22 +89,35 @@ export const useFlashcardsStore = create(
 			addFlashcard: (groupId: string, flashcard: Flashcard) => {
 				set((state) => {
 					const group = state.groups.find(
-						(group: Group) => group.id === groupId,
+						(group: GroupDetails) => group.id === groupId,
 					);
 					if (group) {
-						group.flashcards.push(flashcard);
+						group?.flashcards.push(flashcard);
 					}
 				});
 			},
 			removeFlashcard: (groupId: string, flashcardId: string) => {
 				set((state) => {
 					const group = state.groups.find(
-						(group: Group) => group.id === groupId,
+						(group: GroupDetails) => group.id === groupId,
 					);
 					if (group) {
-						group.flashcards = group.flashcards.filter(
-							(flashcard: Flashcard) => flashcard.id !== flashcardId,
-						);
+						if (group.flashcards) {
+							group.flashcards = group.flashcards.filter(
+								(flashcard: Flashcard) =>
+									flashcard.id !== flashcardId,
+							);
+						}
+					}
+				});
+			},
+			addPreviousScore: (groupId: string, score: number) => {
+				set((state) => {
+					const group = state.groups.find(
+						(group: GroupDetails) => group.id === groupId,
+					);
+					if (group) {
+						group.previousScore = score;
 					}
 				});
 			},

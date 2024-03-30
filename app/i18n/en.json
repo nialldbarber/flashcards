@@ -10,7 +10,9 @@
 			"searchPlaceholderText": "Search for a group",
 			"noGroups": "No groups found",
 			"addNewGroup": "Add new group:",
-			"addNewGroupPlaceholder": "Enter group name"
+			"addNewGroupPlaceholder": "Enter group name",
+			"addGroupEmoji": "Add an emoji",
+			"createNewGroupButton": "Create group"
 		},
 		"settings": {
 			"header": "Settings",
