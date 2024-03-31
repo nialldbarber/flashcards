@@ -12,7 +12,9 @@
 			"addNewGroup": "Pievienot jaunu grupu:",
 			"addNewGroupPlaceholder": "Ievadi grupas nosaukumu",
 			"addGroupEmoji": "Pievienot emociju",
-			"createNewGroupButton": "Izveidot grupu"
+			"createNewGroupButton": "Izveidot grupu",
+			"createNewGroupTextPlaceholder": "Pievienot tekstu",
+			"createNewGroupEmojiPlaceholder": "Pievienot emociju"
 		},
 		"settings": {
 			"header": "Iestatījumi",

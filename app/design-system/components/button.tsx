@@ -15,6 +15,7 @@ import { Text } from "#/app/design-system/components/text";
 import { flatten } from "#/app/design-system/utils/flatten";
 import type { ButtonAnimationType } from "#/app/hooks/useButtonAnimation";
 import { useButtonAnimation } from "#/app/hooks/useButtonAnimation";
+import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 
 export type Variant =
 	| "primary"
@@ -33,6 +34,7 @@ interface ButtonProps extends PressableProps, BaseTextProps {
 	children: string | JSX.Element;
 	buttonStyles?: ViewStyle;
 	animationType?: ButtonAnimationType;
+	resetAnimation?: boolean;
 }
 
 function disableOnPending(props: ButtonProps) {
@@ -57,6 +59,7 @@ export function Button(props: ButtonProps) {
 		size,
 		buttonStyles,
 		animationType = "standard",
+		resetAnimation = false,
 		onPress,
 		...rest
 	} = updatedProps;
@@ -99,6 +102,14 @@ export function Button(props: ButtonProps) {
 						: variant === "destructive"
 							? a.bgRed
 							: a.bgOrange;
+
+	useEffectIgnoreDeps(() => {
+		if (animationType === "spin" && resetAnimation) {
+			setTimeout(() => {
+				onPressSpin();
+			}, 1000);
+		}
+	}, [resetAnimation, animationType]);
 
 	return (
 		<Animated.View

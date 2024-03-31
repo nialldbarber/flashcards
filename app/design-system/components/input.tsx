@@ -6,12 +6,13 @@ import { atoms as a } from "#/app/design-system/atoms";
 import { flatten } from "#/app/design-system/utils/flatten";
 
 type Props = {
+	placeholder: string;
 	value: string;
 	// biome-ignore lint/suspicious/noExplicitAny: <i don't give a hoot ts!>
 	onChange: (...event: any[]) => void;
 };
 
-export function Input({ value, onChange }: Props) {
+export function Input({ placeholder, value, onChange }: Props) {
 	const { t } = useTranslation();
 	const [isFocused, setIsFocused] = useState(false);
 
@@ -27,7 +28,7 @@ export function Input({ value, onChange }: Props) {
 				a.fontSemiBold,
 				a.textBase,
 			])}
-			placeholder={t("screens.home.searchPlaceholderText")}
+			placeholder={placeholder}
 			placeholderTextColor={
 				isFocused ? a.textSlate950.color : a.textSlate50.color
 			}

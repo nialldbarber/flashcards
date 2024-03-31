@@ -24,6 +24,7 @@ import { Text } from "#/app/design-system/components/text";
 import { flatten } from "#/app/design-system/utils/flatten";
 import { useFlashcardsStore } from "#/app/store/flashcards";
 import { useNavigation } from "@react-navigation/native";
+import LinearGradient from "react-native-linear-gradient";
 import { Input } from "../design-system/components/input";
 import { Spacer } from "../design-system/components/spacer";
 
@@ -116,8 +117,6 @@ export function HomeScreen() {
 				name,
 				emoji,
 			});
-			// close modal
-			closeModal();
 			// navigate to card list
 			setTimeout(() => {
 				const flashcards = getFlashcardsFromId(id);
@@ -126,6 +125,9 @@ export function HomeScreen() {
 					emoji,
 					flashcards,
 				});
+				// close modal
+				setIsModalOpen(false);
+				closeModal();
 			}, 500);
 		}
 	};
@@ -184,7 +186,11 @@ export function HomeScreen() {
 						</View>
 
 						<View style={flatten([a.mt4])}>
-							<Input value="" onChange={() => {}} />
+							<Input
+								value=""
+								onChange={() => {}}
+								placeholder={t("screens.home.searchPlaceholderText")}
+							/>
 						</View>
 
 						<View style={flatten([a.mt5])}>
@@ -238,25 +244,43 @@ export function HomeScreen() {
 			</>
 			<View
 				style={flatten([
-					a.absolute,
+					// a.absolute,
 					a.bottom10,
+					a.right0,
+					a.left0,
 					a.z12,
-					{ left: calculateLeft },
+					// { left: calculateLeft },
+					{ width },
 				])}
 			>
-				<Button
-					// eventName="CREATE_NEW_GROUP"
-					aria-label={t("screens.home.a11y.createNewGroup")}
-					onPress={invokeOpenGroupForm}
-					shape="circle"
-					animationType="spin"
+				<LinearGradient
+					colors={["transparent", a.bgSlate950.backgroundColor]}
+					start={{ x: 0, y: 0 }}
+					end={{ x: 0, y: 1 }}
+					style={{
+						position: "absolute",
+						zIndex: 999,
+						left: 0,
+						right: 0,
+						// height: 50,
+						bottom: 0,
+					}}
 				>
-					<AddCircle
-						size={ICON_SIZE}
-						color="#FF8A65"
-						variant="Bulk"
-					/>
-				</Button>
+					<Button
+						// eventName="CREATE_NEW_GROUP"
+						aria-label={t("screens.home.a11y.createNewGroup")}
+						onPress={invokeOpenGroupForm}
+						shape="circle"
+						animationType="spin"
+						resetAnimation={isSubmitSuccessful}
+					>
+						<AddCircle
+							size={ICON_SIZE}
+							color="#FF8A65"
+							variant="Bulk"
+						/>
+					</Button>
+				</LinearGradient>
 			</View>
 			<Animated.View
 				style={[
@@ -276,7 +300,13 @@ export function HomeScreen() {
 				<Controller
 					control={control}
 					render={({ field: { onChange, value } }) => (
-						<Input value={value} onChange={onChange} />
+						<Input
+							value={value}
+							onChange={onChange}
+							placeholder={t(
+								"screens.home.createNewGroupTextPlaceholder",
+							)}
+						/>
 					)}
 					name="name"
 				/>
@@ -284,7 +314,13 @@ export function HomeScreen() {
 				<Controller
 					control={control}
 					render={({ field: { onChange, value } }) => (
-						<Input value={value} onChange={onChange} />
+						<Input
+							value={value}
+							onChange={onChange}
+							placeholder={t(
+								"screens.home.createNewGroupEmojiPlaceholder",
+							)}
+						/>
 					)}
 					name="emoji"
 				/>

@@ -12,7 +12,9 @@
 			"addNewGroup": "Add new group:",
 			"addNewGroupPlaceholder": "Enter group name",
 			"addGroupEmoji": "Add an emoji",
-			"createNewGroupButton": "Create group"
+			"createNewGroupButton": "Create group",
+			"createNewGroupTextPlaceholder": "Enter group name",
+			"createNewGroupEmojiPlaceholder": "Add an emoji"
 		},
 		"settings": {
 			"header": "Settings",

@@ -10,6 +10,7 @@ import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
 	withSpring,
+	withTiming,
 } from "react-native-reanimated";
 
 import { Pressable } from "#/app/components/core/pressable";
@@ -19,6 +20,7 @@ import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
 import { flatten } from "#/app/design-system/utils/flatten";
+import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import type { RootStackParamList } from "#/app/navigation/types";
 
 type Props = NativeStackScreenProps<RootStackParamList, "CardList">;
@@ -63,7 +65,9 @@ export function CardListScreen({
 	const flashcardsInDeck = flashcards.length;
 
 	const [isFlipped, setIsFlipped] = useState(false);
+
 	const rotateY = useSharedValue(0);
+	const gameVisibility = useSharedValue(0);
 
 	const frontAnimatedStyle = useAnimatedStyle(() => {
 		const opacity = interpolate(
@@ -91,10 +95,19 @@ export function CardListScreen({
 		};
 	});
 
-	const flipCard = () => {
+	const gameVisibilityStyles = useAnimatedStyle(() => ({
+		opacity: gameVisibility.value,
+	}));
+
+	function flipCard() {
 		setIsFlipped(!isFlipped);
 		rotateY.value = withSpring(isFlipped ? 0 : 180);
-	};
+	}
+
+	function answerAndFlipCard(correct: boolean) {
+		answerCard(correct);
+		flipCard();
+	}
 
 	const initialState = {
 		gameStarted: false,
@@ -119,6 +132,14 @@ export function CardListScreen({
 	useEffect(() => {
 		dispatch({ type: SET_CARDS, cards: flashcards });
 	}, [flashcards]);
+
+	useEffectIgnoreDeps(() => {
+		if (gameStarted) {
+			gameVisibility.value = withTiming(1, { duration: 200 });
+		} else {
+			gameVisibility.value = withTiming(0, { duration: 200 });
+		}
+	}, [gameStarted]);
 
 	const cardStyles = [
 		a.absolute,
@@ -156,16 +177,19 @@ export function CardListScreen({
 				) : (
 					gameStarted &&
 					!gameEnded && (
-						<View
-							style={flatten([
-								a.relative,
-								a.wFull,
-								a.hFull,
-								a.my7,
-								a.itemsCenter,
-								a.justifyCenter,
-								a.p5,
-							])}
+						<Animated.View
+							style={[
+								gameVisibilityStyles,
+								flatten([
+									a.relative,
+									a.wFull,
+									a.hFull,
+									a.my7,
+									a.itemsCenter,
+									a.justifyCenter,
+									a.p5,
+								]),
+							]}
 						>
 							<Pressable
 								onPress={flipCard}
@@ -200,7 +224,7 @@ export function CardListScreen({
 									</Text>
 								</Animated.View>
 							</Pressable>
-						</View>
+						</Animated.View>
 					)
 				)}
 			</Layout>
@@ -214,23 +238,15 @@ export function CardListScreen({
 				) : null}
 				{gameStarted && !gameEnded && (
 					<>
-						<Button
-							onPress={() => {
-								flipCard();
-								answerCard(true);
-							}}
-						>
-							Correct
+						<Button onPress={() => answerAndFlipCard(true)}>
+							<Text withEmoji>Correct ✅</Text>
 						</Button>
 						<Spacer size="16px" />
 						<Button
 							variant="secondary"
-							onPress={() => {
-								answerCard(false);
-								flipCard();
-							}}
+							onPress={() => answerAndFlipCard(false)}
 						>
-							Incorrect
+							<Text withEmoji>Incorrect ❌</Text>
 						</Button>
 					</>
 				)}
@@ -246,3 +262,5 @@ export function CardListScreen({
 		</>
 	);
 }
+
+// TODO: kill home menu when routing away?
