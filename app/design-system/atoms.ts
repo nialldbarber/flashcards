@@ -40,6 +40,9 @@ export const atoms = {
 	bgSlate50: {
 		backgroundColor: "rgb(248 250 252)",
 	},
+	bgSlate600: {
+		backgroundColor: "rgb(71 85 105)",
+	},
 	bgSlate800: {
 		backgroundColor: "rgb(30 41 59)",
 	},

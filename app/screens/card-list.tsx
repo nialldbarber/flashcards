@@ -106,7 +106,9 @@ export function CardListScreen({
 
 	function answerAndFlipCard(correct: boolean) {
 		answerCard(correct);
-		flipCard();
+		if (isFlipped) {
+			flipCard();
+		}
 	}
 
 	const initialState = {
@@ -255,7 +257,7 @@ export function CardListScreen({
 						<Text>
 							Your score: {score}/{cards.length}
 						</Text>
-						<Button onPress={startGame}>Restart Game</Button>
+						<Button onPress={startGame}>Replay?</Button>
 					</>
 				)}
 			</View>

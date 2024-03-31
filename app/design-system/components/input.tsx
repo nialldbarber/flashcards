@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { TextInput } from "react-native";
 
 import { atoms as a } from "#/app/design-system/atoms";
 import { flatten } from "#/app/design-system/utils/flatten";
+import { useHapticFeedback } from "#/app/hooks/useHapticFeedback";
 
 type Props = {
 	placeholder: string;
@@ -13,27 +13,31 @@ type Props = {
 };
 
 export function Input({ placeholder, value, onChange }: Props) {
-	const { t } = useTranslation();
 	const [isFocused, setIsFocused] = useState(false);
+	const { invokeHapticFeedback } = useHapticFeedback();
 
 	return (
 		<TextInput
 			value={value}
 			onChangeText={(text) => onChange(text)}
 			style={flatten([
-				isFocused ? a.bgWhite : a.bgSlate800,
 				a.roundedLg,
 				a.p4,
 				a.textLg,
 				a.fontSemiBold,
 				a.textBase,
+				a.border,
+				a.border3,
+				isFocused ? a.bgSlate950 : a.bgSlate800,
+				isFocused ? a.borderBlue300 : a.borderSlate800,
 			])}
 			placeholder={placeholder}
 			placeholderTextColor={
-				isFocused ? a.textSlate950.color : a.textSlate50.color
+				isFocused ? a.textWhite.color : a.textSlate50.color
 			}
 			onFocus={() => setIsFocused(true)}
 			onBlur={() => setIsFocused(false)}
+			onPressIn={invokeHapticFeedback}
 		/>
 	);
 }

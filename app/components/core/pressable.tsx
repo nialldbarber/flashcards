@@ -4,14 +4,11 @@ import type {
 	PressableProps as NativePressableProps,
 } from "react-native";
 import { Pressable as NativePressable, Platform } from "react-native";
-import HapticFeedback, {
-	type HapticFeedbackTypes,
-} from "react-native-haptic-feedback";
 
+import { useHapticFeedback } from "#/app/hooks/useHapticFeedback";
 import { useLanguage } from "#/app/hooks/useLanguage";
 import type { RootStackRouteNames } from "#/app/navigation/types";
 import { mixpanelTrack } from "#/app/services/mixpanel";
-import { usePreferencesStore } from "#/app/store/preferences";
 import type { TrackingEvents } from "#/app/tracking/events";
 
 export interface PressableProps extends NativePressableProps {
@@ -49,7 +46,7 @@ export function Pressable({
 	...rest
 }: PressableProps) {
 	const { navigate } = useNavigation();
-	const { hapticFeedback } = usePreferencesStore();
+	const { invokeHapticFeedback } = useHapticFeedback();
 	const { currentLanguage } = useLanguage();
 
 	function invokeTrackEvent() {
@@ -59,12 +56,6 @@ export function Pressable({
 				language: currentLanguage,
 				...(eventProperties || {}),
 			});
-		}
-	}
-
-	function invokeHapticFeedback() {
-		if (hapticFeedback || forceHaptic) {
-			HapticFeedback.trigger("impactAsync" as HapticFeedbackTypes);
 		}
 	}
 
