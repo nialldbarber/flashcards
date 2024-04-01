@@ -21,6 +21,7 @@ import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
 import { f } from "#/app/design-system/utils/flatten";
+import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import { useModal } from "#/app/hooks/useModal";
 import {
 	themeColors,
@@ -65,6 +66,7 @@ export function HomeScreen() {
 	const {
 		control,
 		handleSubmit,
+		reset,
 		formState: { errors, isSubmitSuccessful },
 	} = useForm<Group>({
 		resolver: zodResolver(groupSchema),
@@ -80,7 +82,7 @@ export function HomeScreen() {
 		name,
 		emoji,
 	}) => {
-		if (name && emoji) {
+		if (name && emoji && isThemeColorSelected !== null) {
 			const id = String(uuid.v4());
 			// add group to store
 			addGroup({
@@ -103,6 +105,17 @@ export function HomeScreen() {
 			}, 500);
 		}
 	};
+
+	useEffectIgnoreDeps(() => {
+		// when the modal is closed, reset the form
+		// also reset the theme color selection
+		if (!isModalOpen) {
+			setTimeout(() => {
+				setIsThemeColorSelected(null);
+				reset();
+			}, 1000);
+		}
+	}, [isModalOpen]);
 
 	const animatedStyle = useAnimatedStyle(() => ({
 		opacity: visibility.value,
@@ -179,6 +192,7 @@ export function HomeScreen() {
 										<List index={index}>
 											<Pressable
 												key={item.id}
+												animate
 												style={f([
 													a.flexRow,
 													a.itemsCenter,

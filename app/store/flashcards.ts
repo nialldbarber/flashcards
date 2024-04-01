@@ -10,23 +10,23 @@ type GroupDetails = Pick<
 >;
 
 export const themeColors = [
-	{ color: "blue", hex: "#0091ff", faded: "rgba(0, 145, 255, 0.3)" },
-	{ color: "red", hex: "#e5484d", faded: "rgba(229, 72, 77, 0.3)" },
-	{ color: "pink", hex: "#d6409f", faded: "rgba(214, 64, 159, 0.3)" },
+	{ color: "blue", hex: "#0091ff", faded: "rgba(0, 145, 255, 0.2)" },
+	{ color: "red", hex: "#e5484d", faded: "rgba(229, 72, 77, 0.2)" },
+	{ color: "pink", hex: "#d6409f", faded: "rgba(214, 64, 159, 0.2)" },
 	{
 		color: "orange",
 		hex: "#f76808",
-		faded: "rgba(247, 104, 8, 0.3)",
+		faded: "rgba(247, 104, 8, 0.2)",
 	},
 	{
 		color: "green",
 		hex: "#30a46c",
-		faded: "rgba(48, 164, 108, 0.3)",
+		faded: "rgba(48, 164, 108, 0.2)",
 	},
 	{
 		color: "yellow",
 		hex: "#f5d90a",
-		faded: "rgba(245, 217, 10, 0.3)",
+		faded: "rgba(245, 217, 10, 0.2)",
 	},
 ] as const;
 export type ThemeColor = (typeof themeColors)[number];

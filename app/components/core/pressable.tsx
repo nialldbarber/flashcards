@@ -5,11 +5,13 @@ import type {
 } from "react-native";
 import { Pressable as NativePressable, Platform } from "react-native";
 
+import { useButtonAnimation } from "#/app/hooks/useButtonAnimation";
 import { useHapticFeedback } from "#/app/hooks/useHapticFeedback";
 import { useLanguage } from "#/app/hooks/useLanguage";
 import type { RootStackRouteNames } from "#/app/navigation/types";
 import { mixpanelTrack } from "#/app/services/mixpanel";
 import type { TrackingEvents } from "#/app/tracking/events";
+import Animated from "react-native-reanimated";
 
 export interface PressableProps extends NativePressableProps {
 	/**
@@ -34,6 +36,7 @@ export interface PressableProps extends NativePressableProps {
 	routeName?: RootStackRouteNames;
 	routeParams?: Record<string, unknown>;
 	accessibilityLabel: string;
+	animate?: boolean;
 }
 
 export function Pressable(props: PressableProps) {
@@ -45,12 +48,14 @@ export function Pressable(props: PressableProps) {
 		routeName,
 		routeParams,
 		accessibilityLabel,
+		animate = false,
 		children,
 		...rest
 	} = props;
 	const { navigate } = useNavigation();
 	const { invokeHapticFeedback } = useHapticFeedback();
 	const { currentLanguage } = useLanguage();
+	const { style, onPressInOut } = useButtonAnimation("standard");
 
 	function invokeTrackEvent() {
 		if (eventName) {
@@ -83,16 +88,24 @@ export function Pressable(props: PressableProps) {
 		}
 	}
 
+	const handlePressInOut = {
+		onPressIn: animate ? () => onPressInOut("in") : undefined,
+		onPressOut: animate ? () => onPressInOut("out") : undefined,
+	};
+
 	return (
-		<NativePressable
-			accessible
-			role={props.role || "button"}
-			disabled={props.disabled}
-			onPress={handleOnPress}
-			accessibilityLabel={accessibilityLabel}
-			{...rest}
-		>
-			{children}
-		</NativePressable>
+		<Animated.View style={style}>
+			<NativePressable
+				accessible
+				role={props.role || "button"}
+				disabled={props.disabled}
+				onPress={handleOnPress}
+				accessibilityLabel={accessibilityLabel}
+				{...handlePressInOut}
+				{...rest}
+			>
+				{children}
+			</NativePressable>
+		</Animated.View>
 	);
 }
