@@ -11,6 +11,7 @@ import { useLanguage } from "#/app/hooks/useLanguage";
 import type { RootStackRouteNames } from "#/app/navigation/types";
 import { mixpanelTrack } from "#/app/services/mixpanel";
 import type { TrackingEvents } from "#/app/tracking/events";
+import { Fragment } from "react";
 import Animated from "react-native-reanimated";
 
 export interface PressableProps extends NativePressableProps {
@@ -93,8 +94,11 @@ export function Pressable(props: PressableProps) {
 		onPressOut: animate ? () => onPressInOut("out") : undefined,
 	};
 
+	const Container = animate ? Animated.View : Fragment;
+	const styles = animate ? style : undefined;
+
 	return (
-		<Animated.View style={style}>
+		<Container {...styles}>
 			<NativePressable
 				accessible
 				role={props.role || "button"}
@@ -106,6 +110,6 @@ export function Pressable(props: PressableProps) {
 			>
 				{children}
 			</NativePressable>
-		</Animated.View>
+		</Container>
 	);
 }

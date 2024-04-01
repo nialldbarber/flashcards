@@ -40,10 +40,14 @@ export function SettingsScreen() {
 					🇱🇻
 				</Text>
 			</Pressable>
-
-			<Pressable onPress={() => storage.clearAll()}>
-				<Text>Purge all data</Text>
-			</Pressable>
+			{__DEV__ && (
+				<Pressable
+					onPress={() => storage.clearAll()}
+					accessibilityLabel="purge all keys"
+				>
+					<Text>Purge all data</Text>
+				</Pressable>
+			)}
 		</Layout>
 	);
 }
