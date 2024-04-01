@@ -241,8 +241,23 @@ export const atoms = {
 	/**
 	 * Margin
 	 */
+	mx0: {
+		marginHorizontal: 0,
+	},
+	mx1: {
+		marginHorizontal: 4,
+	},
+	mx2: {
+		marginHorizontal: 8,
+	},
+	mx3: {
+		marginHorizontal: 12,
+	},
+	mx4: {
+		marginHorizontal: 16,
+	},
 	mx5: {
-		marginHorizontal: 5,
+		marginHorizontal: 20,
 	},
 	my5: {
 		marginVertical: 5,

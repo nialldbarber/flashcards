@@ -33,18 +33,21 @@ export interface PressableProps extends NativePressableProps {
 	eventProperties?: Record<string, unknown>;
 	routeName?: RootStackRouteNames;
 	routeParams?: Record<string, unknown>;
+	accessibilityLabel: string;
 }
 
-export function Pressable({
-	onPress,
-	forceHaptic = false,
-	eventName,
-	eventProperties,
-	routeName,
-	routeParams,
-	children,
-	...rest
-}: PressableProps) {
+export function Pressable(props: PressableProps) {
+	const {
+		onPress,
+		forceHaptic = false,
+		eventName,
+		eventProperties,
+		routeName,
+		routeParams,
+		accessibilityLabel,
+		children,
+		...rest
+	} = props;
 	const { navigate } = useNavigation();
 	const { invokeHapticFeedback } = useHapticFeedback();
 	const { currentLanguage } = useLanguage();
@@ -81,7 +84,14 @@ export function Pressable({
 	}
 
 	return (
-		<NativePressable onPress={handleOnPress} {...rest} accessible>
+		<NativePressable
+			accessible
+			role={props.role || "button"}
+			disabled={props.disabled}
+			onPress={handleOnPress}
+			accessibilityLabel={accessibilityLabel}
+			{...rest}
+		>
 			{children}
 		</NativePressable>
 	);

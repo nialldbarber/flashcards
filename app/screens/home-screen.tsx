@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
 import { Canvas, Circle } from "@shopify/react-native-skia";
 import { AddCircle, Setting2 } from "iconsax-react-native";
+import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -21,7 +22,10 @@ import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
 import { f } from "#/app/design-system/utils/flatten";
 import { useModal } from "#/app/hooks/useModal";
-import { useFlashcardsStore } from "#/app/store/flashcards";
+import {
+	themeColors,
+	useFlashcardsStore,
+} from "#/app/store/flashcards";
 
 const groupSchema = z.object({
 	name: z
@@ -54,6 +58,10 @@ export function HomeScreen() {
 		invokeOpenGroupForm,
 	} = useModal();
 
+	const [isThemeColorSelected, setIsThemeColorSelected] = useState<
+		number | null
+	>(null);
+
 	const {
 		control,
 		handleSubmit,
@@ -79,6 +87,7 @@ export function HomeScreen() {
 				id,
 				name,
 				emoji,
+				themeColor: themeColors[isThemeColorSelected ?? 0],
 			});
 			// navigate to card list
 			setTimeout(() => {
@@ -89,8 +98,8 @@ export function HomeScreen() {
 					flashcards,
 				});
 				// close modal
-				setIsModalOpen(false);
 				closeModal();
+				setIsModalOpen(false);
 			}, 500);
 		}
 	};
@@ -141,7 +150,9 @@ export function HomeScreen() {
 								routeName="SettingsModal"
 								eventName="NAVIGATED_TO_SETTINGS"
 								eventProperties={{ from: "HomeScreen" }}
-								aria-label={t("screens.home.a11y.goToSettings")}
+								accessibilityLabel={t(
+									"screens.home.a11y.goToSettings",
+								)}
 							>
 								<Setting2 size="40" color="#FF8A65" variant="Bulk" />
 							</Pressable>
@@ -176,9 +187,11 @@ export function HomeScreen() {
 													a.mb6,
 													a.roundedFull,
 													{
-														borderColor: "#9162c0",
+														borderColor:
+															item?.themeColor?.hex ?? "#9162c0",
 														borderWidth: 2,
-														backgroundColor: "#9162c025",
+														backgroundColor:
+															item?.themeColor?.faded ?? "#9162c025",
 													},
 												])}
 												routeName="CardList"
@@ -188,11 +201,8 @@ export function HomeScreen() {
 													flashcards: item.flashcards,
 												}}
 											>
-												<Text withEmoji level="heading" size="23px">
-													{item.emoji}
-												</Text>
-												<Text withEmoji level="heading" size="23px">
-													{item.name}
+												<Text withEmoji level="heading" size="20px">
+													{item.emoji} {item.name}
 												</Text>
 											</Pressable>
 										</List>
@@ -230,7 +240,7 @@ export function HomeScreen() {
 				>
 					<Button
 						// eventName="CREATE_NEW_GROUP"
-						aria-label={t("screens.home.a11y.createNewGroup")}
+						accessibilityLabel={t("screens.home.a11y.createNewGroup")}
 						onPress={invokeOpenGroupForm}
 						shape="circle"
 						animationType="spin"
@@ -290,55 +300,52 @@ export function HomeScreen() {
 					{errors.emoji?.message}
 				</Text>
 
-				<View style={f([a.flex, a.flexRow])}>
-					<Pressable
-						style={f([
-							a.w7,
-							a.h7,
-							{ backgroundColor: "#0091ff" },
-							a.roundedFull,
-						])}
-					/>
-					<Pressable
-						style={f([
-							a.w7,
-							a.h7,
-							{ backgroundColor: "#e5484d" },
-							a.roundedFull,
-						])}
-					/>
-					<Pressable
-						style={f([
-							a.w7,
-							a.h7,
-							{ backgroundColor: "#d6409f" },
-							a.roundedFull,
-						])}
-					/>
-					<Pressable
-						style={f([
-							a.w7,
-							a.h7,
-							{ backgroundColor: "#f76808" },
-							a.roundedFull,
-						])}
-					/>
-					<Pressable
-						style={f([
-							a.w7,
-							a.h7,
-							{ backgroundColor: "#30a46c" },
-							a.roundedFull,
-						])}
-					/>
-					<Pressable
-						style={f([
-							a.w7,
-							a.h7,
-							{ backgroundColor: "#f5d90a" },
-							a.roundedFull,
-						])}
-					/>
+				<View
+					style={f([
+						a.flex,
+						a.flexRow,
+						a.justifyCenter,
+						a.mt4,
+						a.mb7,
+					])}
+				>
+					{themeColors.map(({ color, hex }, index) => (
+						<Animated.View
+							key={`${color}-${hex}-${index}`}
+							style={f([
+								a.relative,
+								a.w7,
+								a.h7,
+								a.mx2,
+								a.justifyCenter,
+								a.itemsCenter,
+							])}
+						>
+							<Pressable
+								onPress={() => setIsThemeColorSelected(index)}
+								style={f([
+									a.wFull,
+									a.hFull,
+									{ backgroundColor: hex },
+									a.roundedFull,
+								])}
+							/>
+							{isThemeColorSelected === index && (
+								<View
+									style={f([
+										a.absolute,
+										a.w10,
+										a.h10,
+										a.bgTransparent,
+										a.roundedFull,
+										a.border2,
+										a.borderSlate50,
+										a._z1,
+									])}
+								/>
+							)}
+						</Animated.View>
+					))}
 				</View>
 
 				<Button onPress={handleSubmit(invokeCreateGroup)}>

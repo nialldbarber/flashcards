@@ -28,6 +28,7 @@ export function Input({ placeholder, value, onChange }: Props) {
 				a.textBase,
 				a.border,
 				a.border3,
+				a.textWhite,
 				isFocused ? a.bgSlate950 : a.bgSlate800,
 				isFocused ? a.borderBlue300 : a.borderSlate800,
 			])}

@@ -8,6 +8,7 @@ import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Text } from "#/app/design-system/components/text";
 import { f } from "#/app/design-system/utils/flatten";
 import { useLanguage } from "#/app/hooks/useLanguage";
+import { storage } from "#/app/utils/mmkv";
 
 export function SettingsScreen() {
 	const { t } = useTranslation();
@@ -38,6 +39,10 @@ export function SettingsScreen() {
 				<Text level="heading" size="44px">
 					🇱🇻
 				</Text>
+			</Pressable>
+
+			<Pressable onPress={() => storage.clearAll()}>
+				<Text>Purge all data</Text>
 			</Pressable>
 		</Layout>
 	);
