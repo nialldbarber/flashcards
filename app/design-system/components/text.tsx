@@ -14,7 +14,7 @@ import type {
 import { typeHierarchy } from "#/app/design-system/font-size";
 import type { FontWeight } from "#/app/design-system/font-weight";
 import { fontWeight } from "#/app/design-system/font-weight";
-import { flatten } from "#/app/design-system/utils/flatten";
+import { f } from "#/app/design-system/utils/flatten";
 import { renderStringWithEmoji } from "#/app/design-system/utils/renderStringWithEmoji";
 
 export type BaseTextProps = {
@@ -75,7 +75,7 @@ export function Text({
 
 	return (
 		<NativeText
-			style={[_styles.text, flatten(styles)]}
+			style={[_styles.text, f(styles)]}
 			maxFontSizeMultiplier={maxFontSizeMultiplier}
 			accessibilityRole={level === "heading" ? "header" : "text"}
 			accessibilityHint={a11yHint}

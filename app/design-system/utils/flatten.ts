@@ -1,3 +1,3 @@
 import { StyleSheet } from "react-native";
 
-export const flatten = StyleSheet.flatten;
+export const f = StyleSheet.flatten;

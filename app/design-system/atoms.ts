@@ -395,46 +395,46 @@ export const atoms = {
 		width: "100%",
 	},
 	w0: {
-		height: 0,
+		width: 0,
 	},
 	wpx: {
-		height: 1,
+		width: 1,
 	},
 	"wh0.5": {
-		height: 2,
+		width: 2,
 	},
 	w1: {
-		height: 4,
+		width: 4,
 	},
 	w2: {
-		height: 8,
+		width: 8,
 	},
 	w3: {
-		height: 12,
+		width: 12,
 	},
 	"wh3.5": {
-		height: 14,
+		width: 14,
 	},
 	w4: {
-		height: 16,
+		width: 16,
 	},
 	w5: {
-		height: 20,
+		width: 20,
 	},
 	w6: {
-		height: 24,
+		width: 24,
 	},
 	w7: {
-		height: 28,
+		width: 28,
 	},
 	w8: {
-		height: 32,
+		width: 32,
 	},
 	w9: {
-		height: 36,
+		width: 36,
 	},
 	w10: {
-		height: 40,
+		width: 40,
 	},
 	/**
 	 * Top / Right / Bottom / Left

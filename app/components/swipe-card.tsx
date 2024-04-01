@@ -15,7 +15,7 @@ import Animated, {
 
 import { atoms as a } from "#/app/design-system/atoms";
 import { Text } from "#/app/design-system/components/text";
-import { flatten } from "#/app/design-system/utils/flatten";
+import { f } from "#/app/design-system/utils/flatten";
 import type { Flashcard } from "#/app/store/flashcards";
 
 export type SwipeCardProps = {
@@ -90,7 +90,7 @@ export function SwipeCard({
 	return (
 		<GestureDetector gesture={gesture}>
 			<Animated.View
-				style={flatten([
+				style={f([
 					a.absolute,
 					a.rounded2xl,
 					a.justifyEnd,
@@ -110,23 +110,17 @@ export function SwipeCard({
 					},
 				])}
 			>
-				<View
-					style={flatten([
-						a.bgBlue300,
-						a.rounded3xl,
-						{ height: 500 },
-					])}
-				>
+				<View style={f([a.bgBlue300, a.rounded3xl, { height: 500 }])}>
 					<LinearGradient
 						colors={["transparent", "rgba(0,0,0,0.8)"]}
-						style={flatten([
+						style={f([
 							a.fillSpace,
 							a.roundedB2xl,
 							{ top: "50%", transform: [{ translateY: -50 }] },
 						])}
 					/>
-					<View style={flatten([a.p3])}>
-						<Text style={flatten([a.text2xl, a.textWhite])}>
+					<View style={f([a.p3])}>
+						<Text style={f([a.text2xl, a.textWhite])}>
 							{flashcard.question}
 						</Text>
 					</View>

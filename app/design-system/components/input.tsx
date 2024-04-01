@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextInput } from "react-native";
 
 import { atoms as a } from "#/app/design-system/atoms";
-import { flatten } from "#/app/design-system/utils/flatten";
+import { f } from "#/app/design-system/utils/flatten";
 import { useHapticFeedback } from "#/app/hooks/useHapticFeedback";
 
 type Props = {
@@ -20,7 +20,7 @@ export function Input({ placeholder, value, onChange }: Props) {
 		<TextInput
 			value={value}
 			onChangeText={(text) => onChange(text)}
-			style={flatten([
+			style={f([
 				a.roundedLg,
 				a.p4,
 				a.textLg,

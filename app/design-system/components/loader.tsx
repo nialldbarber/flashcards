@@ -8,7 +8,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { atoms as a } from "#/app/design-system/atoms";
-import { flatten } from "#/app/design-system/utils/flatten";
+import { f } from "#/app/design-system/utils/flatten";
 import { useEffectOnce } from "#/app/hooks/useEffectOnce";
 
 const TO_VALUE = 360;
@@ -36,12 +36,12 @@ export function Loader() {
 
 	return (
 		<View
-			style={flatten([a.flex1, a.justifyCenter, a.itemsCenter])}
+			style={f([a.flex1, a.justifyCenter, a.itemsCenter])}
 			accessibilityRole="image"
 			aria-label="Loading content"
 		>
 			<Animated.View
-				style={flatten([a.h8, a.w8, a.roundedFull, rotationStyles])}
+				style={f([a.h8, a.w8, a.roundedFull, rotationStyles])}
 			/>
 		</View>
 	);

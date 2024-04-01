@@ -12,7 +12,7 @@ import { atoms as a } from "#/app/design-system/atoms";
 import { Loader } from "#/app/design-system/components/loader";
 import type { BaseTextProps } from "#/app/design-system/components/text";
 import { Text } from "#/app/design-system/components/text";
-import { flatten } from "#/app/design-system/utils/flatten";
+import { f } from "#/app/design-system/utils/flatten";
 import type { ButtonAnimationType } from "#/app/hooks/useButtonAnimation";
 import { useButtonAnimation } from "#/app/hooks/useButtonAnimation";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
@@ -112,12 +112,10 @@ export function Button(props: ButtonProps) {
 	}, [resetAnimation, animationType]);
 
 	return (
-		<Animated.View
-			style={flatten([a.itemsCenter, a.justifyCenter, style])}
-		>
+		<Animated.View style={f([a.itemsCenter, a.justifyCenter, style])}>
 			<Pressable
 				{...rest}
-				style={flatten([
+				style={f([
 					a.relative,
 					a.itemsCenter,
 					a.justifyCenter,
@@ -142,7 +140,7 @@ export function Button(props: ButtonProps) {
 					</Text>
 				</View>
 			</Pressable>
-			<View style={flatten([a.absolute, a.right7, a.top4])}>
+			<View style={f([a.absolute, a.right7, a.top4])}>
 				<Animated.View style={loaderStyle}>
 					<Loader />
 				</Animated.View>

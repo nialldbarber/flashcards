@@ -1,17 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
 import { Canvas, Circle } from "@shopify/react-native-skia";
 import { AddCircle, Setting2 } from "iconsax-react-native";
-import { useCallback, useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FlatList, View, useWindowDimensions } from "react-native";
-import Animated, {
-	useAnimatedStyle,
-	useSharedValue,
-	withDelay,
-	withTiming,
-} from "react-native-reanimated";
+import LinearGradient from "react-native-linear-gradient";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import uuid from "react-native-uuid";
 import { z } from "zod";
 
@@ -19,14 +15,13 @@ import { Pressable } from "#/app/components/core/pressable";
 import { List } from "#/app/components/list";
 import { atoms as a } from "#/app/design-system/atoms";
 import { Button } from "#/app/design-system/components/button";
+import { Input } from "#/app/design-system/components/input";
 import { Layout } from "#/app/design-system/components/scroll-layout";
+import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
-import { flatten } from "#/app/design-system/utils/flatten";
+import { f } from "#/app/design-system/utils/flatten";
+import { useModal } from "#/app/hooks/useModal";
 import { useFlashcardsStore } from "#/app/store/flashcards";
-import { useNavigation } from "@react-navigation/native";
-import LinearGradient from "react-native-linear-gradient";
-import { Input } from "../design-system/components/input";
-import { Spacer } from "../design-system/components/spacer";
 
 const groupSchema = z.object({
 	name: z
@@ -42,62 +37,30 @@ const groupSchema = z.object({
 });
 export type Group = z.infer<typeof groupSchema>;
 
-const TRANSITION_DURATION = 450;
 const ICON_SIZE = 70;
-const ICON_SIZE_HALF = ICON_SIZE / 2;
 
 export function HomeScreen() {
 	const { t } = useTranslation();
 	const { navigate } = useNavigation();
 	const { groups, addGroup } = useFlashcardsStore();
 	const { width, height } = useWindowDimensions();
-
-	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const r = useSharedValue(0);
-	const visibility = useSharedValue(1);
-	const offscreenVisibility = useSharedValue(0);
+	const {
+		r,
+		offscreenVisibility,
+		visibility,
+		setIsModalOpen,
+		closeModal,
+		isModalOpen,
+		invokeOpenGroupForm,
+	} = useModal();
 
 	const {
 		control,
 		handleSubmit,
-		formState: { errors, isSubmitting, isSubmitSuccessful },
+		formState: { errors, isSubmitSuccessful },
 	} = useForm<Group>({
 		resolver: zodResolver(groupSchema),
 	});
-
-	const closeModal = useCallback(() => {
-		r.value = withTiming(0, { duration: TRANSITION_DURATION });
-		visibility.value = withDelay(
-			100,
-			withTiming(1, { duration: TRANSITION_DURATION }),
-		);
-		offscreenVisibility.value = withTiming(0, {
-			duration: TRANSITION_DURATION,
-		});
-	}, [r, visibility, offscreenVisibility]);
-	const openModal = useCallback(() => {
-		const diagonal = Math.sqrt(width * width + height * height);
-		r.value = withTiming(diagonal * 1, {
-			duration: TRANSITION_DURATION,
-		});
-		visibility.value = withTiming(0, {
-			duration: TRANSITION_DURATION,
-		});
-		offscreenVisibility.value = withDelay(
-			100,
-			withTiming(1, { duration: TRANSITION_DURATION }),
-		);
-	}, [r, visibility, offscreenVisibility, width, height]);
-
-	function invokeOpenGroupForm() {
-		setIsModalOpen(!isModalOpen);
-		if (isModalOpen) {
-			closeModal();
-		} else {
-			openModal();
-		}
-	}
 
 	// @TODO: make sure groups can't have same name
 	const getFlashcardsFromId = (id: string) => {
@@ -140,12 +103,11 @@ export function HomeScreen() {
 	}));
 
 	const noGroupsExist = groups.length === 0;
-	const calculateLeft = width / 2 - ICON_SIZE_HALF;
 
 	return (
 		<>
 			<View
-				style={flatten([
+				style={f([
 					a.fillSpace,
 					a.itemsCenter,
 					isModalOpen ? a.z10 : a._z2,
@@ -165,7 +127,7 @@ export function HomeScreen() {
 					{/* <DebugLayout> */}
 					<Animated.View style={animatedStyle}>
 						<View
-							style={flatten([
+							style={f([
 								a.itemsStart,
 								a.justifyBetween,
 								a.flexRow,
@@ -185,7 +147,7 @@ export function HomeScreen() {
 							</Pressable>
 						</View>
 
-						<View style={flatten([a.mt4])}>
+						<View style={f([a.mt4])}>
 							<Input
 								value=""
 								onChange={() => {}}
@@ -193,7 +155,7 @@ export function HomeScreen() {
 							/>
 						</View>
 
-						<View style={flatten([a.mt5])}>
+						<View style={f([a.mt5])}>
 							{noGroupsExist ? (
 								<View>
 									<Text>{t("screens.home.noGroups")}</Text>
@@ -206,7 +168,7 @@ export function HomeScreen() {
 										<List index={index}>
 											<Pressable
 												key={item.id}
-												style={flatten([
+												style={f([
 													a.flexRow,
 													a.itemsCenter,
 													a.justifyCenter,
@@ -243,7 +205,7 @@ export function HomeScreen() {
 				</Layout>
 			</>
 			<View
-				style={flatten([
+				style={f([
 					// a.absolute,
 					a.bottom10,
 					a.right0,
@@ -285,7 +247,7 @@ export function HomeScreen() {
 			<Animated.View
 				style={[
 					offscreenAnimatedStyle,
-					flatten([
+					f([
 						a.absolute,
 						a.right8,
 						a.left5,
@@ -324,9 +286,61 @@ export function HomeScreen() {
 					)}
 					name="emoji"
 				/>
-				<Text styles={flatten([a.textSm])} isError>
+				<Text styles={f([a.textSm])} isError>
 					{errors.emoji?.message}
 				</Text>
+
+				<View style={f([a.flex, a.flexRow])}>
+					<Pressable
+						style={f([
+							a.w7,
+							a.h7,
+							{ backgroundColor: "#0091ff" },
+							a.roundedFull,
+						])}
+					/>
+					<Pressable
+						style={f([
+							a.w7,
+							a.h7,
+							{ backgroundColor: "#e5484d" },
+							a.roundedFull,
+						])}
+					/>
+					<Pressable
+						style={f([
+							a.w7,
+							a.h7,
+							{ backgroundColor: "#d6409f" },
+							a.roundedFull,
+						])}
+					/>
+					<Pressable
+						style={f([
+							a.w7,
+							a.h7,
+							{ backgroundColor: "#f76808" },
+							a.roundedFull,
+						])}
+					/>
+					<Pressable
+						style={f([
+							a.w7,
+							a.h7,
+							{ backgroundColor: "#30a46c" },
+							a.roundedFull,
+						])}
+					/>
+					<Pressable
+						style={f([
+							a.w7,
+							a.h7,
+							{ backgroundColor: "#f5d90a" },
+							a.roundedFull,
+						])}
+					/>
+				</View>
+
 				<Button onPress={handleSubmit(invokeCreateGroup)}>
 					{t("screens.home.createNewGroupButton")}
 				</Button>

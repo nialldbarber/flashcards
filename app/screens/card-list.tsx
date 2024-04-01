@@ -19,7 +19,7 @@ import { Button } from "#/app/design-system/components/button";
 import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
-import { flatten } from "#/app/design-system/utils/flatten";
+import { f } from "#/app/design-system/utils/flatten";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import type { RootStackParamList } from "#/app/navigation/types";
 
@@ -160,14 +160,14 @@ export function CardListScreen({
 				<Pressable onPress={() => navigate("Home")}>
 					<ArrowLeft size={40} variant="Bulk" color="#FF8A65" />
 				</Pressable>
-				<View style={flatten([a.itemsCenter])}>
+				<View style={f([a.itemsCenter])}>
 					<Text level="heading" size="30px" withEmoji>
 						{name} {emoji}
 					</Text>
 				</View>
 				{noFlashcards ? (
 					<View
-						style={flatten([
+						style={f([
 							a.bgBlue500,
 							a.hFull,
 							a.itemsCenter,
@@ -182,7 +182,7 @@ export function CardListScreen({
 						<Animated.View
 							style={[
 								gameVisibilityStyles,
-								flatten([
+								f([
 									a.relative,
 									a.wFull,
 									a.hFull,
@@ -195,33 +195,25 @@ export function CardListScreen({
 						>
 							<Pressable
 								onPress={flipCard}
-								style={flatten([...cardStyles])}
+								style={f([...cardStyles])}
 							>
 								<Animated.View
 									style={[
-										flatten([
-											...cardStyles,
-											a.bgOrangeFaded,
-											a.roundedXl,
-										]),
+										f([...cardStyles, a.bgOrangeFaded, a.roundedXl]),
 										frontAnimatedStyle,
 									]}
 								>
-									<Text style={flatten([a.textWhite, a.textCenter])}>
+									<Text style={f([a.textWhite, a.textCenter])}>
 										{currentCard.question}
 									</Text>
 								</Animated.View>
 								<Animated.View
 									style={[
-										flatten([
-											...cardStyles,
-											a.bgSlate800,
-											a.roundedXl,
-										]),
+										f([...cardStyles, a.bgSlate800, a.roundedXl]),
 										backAnimatedStyle,
 									]}
 								>
-									<Text style={flatten([a.textWhite, a.textCenter])}>
+									<Text style={f([a.textWhite, a.textCenter])}>
 										{currentCard.answer}
 									</Text>
 								</Animated.View>
@@ -230,7 +222,7 @@ export function CardListScreen({
 					)
 				)}
 			</Layout>
-			<View style={flatten([a.px6, a.pt5, a.pb10])}>
+			<View style={f([a.px6, a.pt5, a.pb10])}>
 				{flashcardsInDeck && !gameStarted ? (
 					<Button onPress={startGame}>Start</Button>
 				) : null}

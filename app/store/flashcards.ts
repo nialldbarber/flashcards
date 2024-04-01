@@ -6,12 +6,21 @@ import { storeMiddleware } from "#/app/utils/store-middleware";
 
 type GroupDetails = Pick<Group, "id" | "name" | "emoji">;
 
+type ThemeColor =
+	| "blue"
+	| "red"
+	| "pink"
+	| "orange"
+	| "green"
+	| "yellow";
+
 export type Group = {
 	id: string;
 	name: string;
 	flashcards?: Flashcard[];
 	emoji: string;
 	previousScore?: number;
+	themeColor?: ThemeColor;
 };
 
 export type Flashcard = {
