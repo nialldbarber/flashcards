@@ -13,8 +13,10 @@
 			"addNewGroupPlaceholder": "Enter group name",
 			"addGroupEmoji": "Add an emoji",
 			"createNewGroupButton": "Create group",
+			"createNewGroupButtonA11y": "Press button to create a new group",
 			"createNewGroupTextPlaceholder": "Enter group name",
-			"createNewGroupEmojiPlaceholder": "Add an emoji"
+			"createNewGroupEmojiPlaceholder": "Add an emoji",
+			"selectEmojiError": "Please select an emoji"
 		},
 		"settings": {
 			"header": "Settings",

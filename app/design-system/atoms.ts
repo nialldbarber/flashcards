@@ -241,6 +241,9 @@ export const atoms = {
 	/**
 	 * Margin
 	 */
+	m0: {
+		margin: 0,
+	},
 	mx0: {
 		marginHorizontal: 0,
 	},
@@ -339,6 +342,39 @@ export const atoms = {
 	},
 	mb12: {
 		marginBottom: 48,
+	},
+	ml0: {
+		marginLeft: 0,
+	},
+	ml1: {
+		marginLeft: 4,
+	},
+	ml2: {
+		marginLeft: 8,
+	},
+	ml3: {
+		marginLeft: 12,
+	},
+	ml4: {
+		marginLeft: 16,
+	},
+	ml5: {
+		marginLeft: 20,
+	},
+	ml6: {
+		marginLeft: 24,
+	},
+	ml7: {
+		marginLeft: 28,
+	},
+	ml8: {
+		marginLeft: 32,
+	},
+	ml9: {
+		marginLeft: 36,
+	},
+	ml10: {
+		marginLeft: 40,
 	},
 	/**
 	 * Height

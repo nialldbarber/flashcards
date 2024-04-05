@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
 import { Canvas, Circle } from "@shopify/react-native-skia";
-import { AddCircle, Setting2 } from "iconsax-react-native";
+import { AddCircle, AddSquare, Setting2 } from "iconsax-react-native";
 import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
@@ -10,6 +10,7 @@ import { FlatList, View, useWindowDimensions } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import uuid from "react-native-uuid";
+import EmojiPicker, { type EmojiType } from "rn-emoji-keyboard";
 import { z } from "zod";
 
 import { Pressable } from "#/app/components/core/pressable";
@@ -30,15 +31,12 @@ import {
 
 const groupSchema = z.object({
 	name: z
-		.string()
-		.min(1, { message: "Name must be at least 1 character long." })
-		.max(30, { message: "Name must not exceed 30 characters." }),
-	emoji: z
-		.string()
-		.regex(
-			/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g,
-			{ message: "Must be a valid emoji" },
-		),
+		.string({
+			required_error: "A group name is required",
+			invalid_type_error: "Name must be a string",
+		})
+		.min(1, { message: "Must be at least 1 character long" })
+		.max(30, { message: "Must not exceed 30 characters!" }),
 });
 export type Group = z.infer<typeof groupSchema>;
 
@@ -59,6 +57,9 @@ export function HomeScreen() {
 		invokeOpenGroupForm,
 	} = useModal();
 
+	const [selectEmoji, setSelectEmoji] = useState<EmojiType>();
+	const [selectEmojiError, setSelectEmojiError] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 	const [isThemeColorSelected, setIsThemeColorSelected] = useState<
 		number | null
 	>(null);
@@ -78,17 +79,21 @@ export function HomeScreen() {
 		return group?.flashcards ?? [];
 	};
 
-	const invokeCreateGroup: SubmitHandler<Group> = ({
-		name,
-		emoji,
-	}) => {
-		if (name && emoji && isThemeColorSelected !== null) {
+	const invokeCreateGroup: SubmitHandler<Group> = ({ name }) => {
+		if (selectEmoji === undefined) {
+			setSelectEmojiError(true);
+			return;
+		}
+
+		setSelectEmojiError(false);
+
+		if (name && selectEmoji && isThemeColorSelected !== null) {
 			const id = String(uuid.v4());
 			// add group to store
 			addGroup({
 				id,
 				name,
-				emoji,
+				emoji: selectEmoji.emoji,
 				themeColor: themeColors[isThemeColorSelected ?? 0],
 			});
 			// navigate to card list
@@ -96,7 +101,7 @@ export function HomeScreen() {
 				const flashcards = getFlashcardsFromId(id);
 				navigate("CardList", {
 					name,
-					emoji,
+					emoji: selectEmoji.emoji,
 					flashcards,
 				});
 				// close modal
@@ -113,6 +118,7 @@ export function HomeScreen() {
 			setTimeout(() => {
 				setIsThemeColorSelected(null);
 				reset();
+				setSelectEmoji(undefined);
 			}, 1000);
 		}
 	}, [isModalOpen]);
@@ -296,24 +302,41 @@ export function HomeScreen() {
 					)}
 					name="name"
 				/>
+				<View style={f([a.h7, a.justifyCenter])}>
+					<Text styles={f([a.textXs, a.p0, a.m0])} isError>
+						{errors.name?.message}
+					</Text>
+				</View>
 				<Spacer size="12px" />
-				<Controller
-					control={control}
-					render={({ field: { onChange, value } }) => (
-						<Input
-							value={value}
-							onChange={onChange}
-							placeholder={t(
-								"screens.home.createNewGroupEmojiPlaceholder",
-							)}
-						/>
+				<Pressable
+					style={f([a.flexRow, a.itemsCenter, a.justifyCenter])}
+					onPress={() => setIsOpen(true)}
+					accessibilityLabel={t(
+						"screens.home.a11y.createNewGroupEmoji",
 					)}
-					name="emoji"
+					animate
+				>
+					<AddSquare size={25} color="#FF8A65" variant="Bulk" />
+					<View style={f([a.ml2])}>
+						<Text>Add an emoji</Text>
+					</View>
+					<View style={f([a.ml2])}>
+						<Text>{selectEmoji?.emoji}</Text>
+					</View>
+				</Pressable>
+				<Text>{}</Text>
+				<EmojiPicker
+					onEmojiSelected={(emoji) => setSelectEmoji(emoji)}
+					open={isOpen}
+					onClose={() => setIsOpen(false)}
 				/>
-				<Text styles={f([a.textSm])} isError>
-					{errors.emoji?.message}
-				</Text>
-
+				<View style={f([a.h7, a.justifyCenter])}>
+					{selectEmojiError && (
+						<Text styles={f([a.textXs])} isError>
+							{t("screens.home.selectEmojiError")}
+						</Text>
+					)}
+				</View>
 				<View
 					style={f([
 						a.flex,
@@ -361,8 +384,12 @@ export function HomeScreen() {
 						</Animated.View>
 					))}
 				</View>
-
-				<Button onPress={handleSubmit(invokeCreateGroup)}>
+				<Button
+					onPress={handleSubmit(invokeCreateGroup)}
+					accessibilityLabel={t(
+						"screens.home.a11y.createNewGroupButtonA11y",
+					)}
+				>
 					{t("screens.home.createNewGroupButton")}
 				</Button>
 			</Animated.View>
