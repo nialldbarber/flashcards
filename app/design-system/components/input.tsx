@@ -12,6 +12,19 @@ type Props = {
 	onChange: (...event: any[]) => void;
 };
 
+export const inputStyles = [
+	a.roundedLg,
+	a.p4,
+	a.textLg,
+	a.fontSemiBold,
+	a.textBase,
+	a.border,
+	a.border3,
+	a.textWhite,
+	a.bgSlate800,
+	a.borderSlate800,
+];
+
 export function Input({ placeholder, value, onChange }: Props) {
 	const [isFocused, setIsFocused] = useState(false);
 	const { invokeHapticFeedback } = useHapticFeedback();
@@ -21,14 +34,7 @@ export function Input({ placeholder, value, onChange }: Props) {
 			value={value}
 			onChangeText={(text) => onChange(text)}
 			style={f([
-				a.roundedLg,
-				a.p4,
-				a.textLg,
-				a.fontSemiBold,
-				a.textBase,
-				a.border,
-				a.border3,
-				a.textWhite,
+				...inputStyles,
 				isFocused ? a.bgSlate950 : a.bgSlate800,
 				isFocused ? a.borderBlue300 : a.borderSlate800,
 			])}

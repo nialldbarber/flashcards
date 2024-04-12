@@ -76,6 +76,9 @@ export const atoms = {
 	flexRow: {
 		flexDirection: "row",
 	},
+	flexCol: {
+		flexDirection: "column",
+	},
 	justifyCenter: {
 		justifyContent: "center",
 	},

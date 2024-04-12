@@ -1,8 +1,20 @@
+import {
+	BottomSheetModal,
+	BottomSheetModalProvider,
+	BottomSheetTextInput,
+} from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ArrowLeft } from "iconsax-react-native";
 import { produce } from "immer";
-import { useEffect, useReducer, useState } from "react";
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useReducer,
+	useRef,
+	useState,
+} from "react";
 import { View } from "react-native";
 import Animated, {
 	Extrapolation,
@@ -16,9 +28,12 @@ import Animated, {
 import { Pressable } from "#/app/components/core/pressable";
 import { atoms as a } from "#/app/design-system/atoms";
 import { Button } from "#/app/design-system/components/button";
+import { inputStyles } from "#/app/design-system/components/input";
 import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
+import { XStack } from "#/app/design-system/components/x-stack";
+import { YStack } from "#/app/design-system/components/y-stack";
 import { f } from "#/app/design-system/utils/flatten";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import type { RootStackParamList } from "#/app/navigation/types";
@@ -65,6 +80,9 @@ export function CardListScreen({
 	const flashcardsInDeck = flashcards.length;
 
 	const [isFlipped, setIsFlipped] = useState(false);
+	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+	const snapPoints = useMemo(() => ["25%", "50%"], []);
 
 	const rotateY = useSharedValue(0);
 	const gameVisibility = useSharedValue(0);
@@ -131,6 +149,10 @@ export function CardListScreen({
 
 	const currentCard = flashcards[currentCardIndex];
 
+	const handlePresentModalPress = useCallback(() => {
+		bottomSheetModalRef.current?.present();
+	}, []);
+
 	useEffect(() => {
 		dispatch({ type: SET_CARDS, cards: flashcards });
 	}, [flashcards]);
@@ -155,7 +177,7 @@ export function CardListScreen({
 	];
 
 	return (
-		<>
+		<BottomSheetModalProvider>
 			<Layout>
 				<Pressable onPress={() => navigate("Home")}>
 					<ArrowLeft size={40} variant="Bulk" color="#FF8A65" />
@@ -228,7 +250,12 @@ export function CardListScreen({
 				) : null}
 				<Spacer size="16px" />
 				{!gameStarted ? (
-					<Button variant="secondary">Add</Button>
+					<Button
+						variant="secondary"
+						onPress={handlePresentModalPress}
+					>
+						Add
+					</Button>
 				) : null}
 				{gameStarted && !gameEnded && (
 					<>
@@ -244,6 +271,12 @@ export function CardListScreen({
 						</Button>
 					</>
 				)}
+				<XStack>
+					<Text>
+						{currentCardIndex + 1}/{cards.length}
+					</Text>
+					<Text>Score: {score}</Text>
+				</XStack>
 				{gameEnded && (
 					<>
 						<Text>
@@ -253,8 +286,23 @@ export function CardListScreen({
 					</>
 				)}
 			</View>
-		</>
+			<BottomSheetModal
+				ref={bottomSheetModalRef}
+				keyboardBehavior="fillParent"
+				snapPoints={snapPoints}
+				backgroundStyle={f([a.bgSlate950])}
+			>
+				<YStack margin="18px" gutter="11px">
+					<BottomSheetTextInput
+						style={f([...inputStyles])}
+						placeholder="Question"
+					/>
+					<BottomSheetTextInput
+						style={f([...inputStyles])}
+						placeholder="Answer"
+					/>
+				</YStack>
+			</BottomSheetModal>
+		</BottomSheetModalProvider>
 	);
 }
-
-// TODO: kill home menu when routing away?
