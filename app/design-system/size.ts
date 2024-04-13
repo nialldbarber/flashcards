@@ -1,8 +1,10 @@
 export const size = {
+	auto: "auto",
 	"0px": 0,
 	"0.66px": 0.66,
 	"1px": 1,
 	"2px": 2,
+	"3px": 3,
 	"4px": 4,
 	"6px": 6,
 	"8px": 8,

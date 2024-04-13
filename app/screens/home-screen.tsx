@@ -303,7 +303,7 @@ export function HomeScreen() {
 					name="name"
 				/>
 				<View style={f([a.h7, a.justifyCenter])}>
-					<Text styles={f([a.textXs, a.p0, a.m0])} isError>
+					<Text overideStyles={f([a.textXs, a.p0, a.m0])} isError>
 						{errors.name?.message}
 					</Text>
 				</View>
@@ -332,7 +332,7 @@ export function HomeScreen() {
 				/>
 				<View style={f([a.h7, a.justifyCenter])}>
 					{selectEmojiError && (
-						<Text styles={f([a.textXs])} isError>
+						<Text overideStyles={f([a.textXs])} isError>
 							{t("screens.home.selectEmojiError")}
 						</Text>
 					)}

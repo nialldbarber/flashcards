@@ -8,14 +8,16 @@ import Animated, {
 
 import type { PressableProps } from "#/app/components/core/pressable";
 import { Pressable } from "#/app/components/core/pressable";
-import { atoms as a } from "#/app/design-system/atoms";
 import { Loader } from "#/app/design-system/components/loader";
 import type { BaseTextProps } from "#/app/design-system/components/text";
 import { Text } from "#/app/design-system/components/text";
+import { radii } from "#/app/design-system/radii";
+import { size } from "#/app/design-system/size";
 import { f } from "#/app/design-system/utils/flatten";
 import type { ButtonAnimationType } from "#/app/hooks/useButtonAnimation";
 import { useButtonAnimation } from "#/app/hooks/useButtonAnimation";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 export type Variant =
 	| "primary"
@@ -64,6 +66,8 @@ export function Button(props: ButtonProps) {
 		...rest
 	} = updatedProps;
 
+	const { styles } = useStyles(stylesheet, { variant });
+
 	const { onPressInOut, onPressSpin, style } = useButtonAnimation(
 		animationType as ButtonAnimationType,
 	);
@@ -83,25 +87,12 @@ export function Button(props: ButtonProps) {
 		}
 	}, [isPending, loader]);
 
-	function invokeOnPress() {
+	const invokeOnPress = () => {
 		if (onPress) {
 			onPress();
 			onPressSpin();
 		}
-	}
-
-	const variantStyles =
-		variant === "primary"
-			? { ...a.bgOrangeFaded }
-			: variant === "secondary"
-				? { ...a.bgTransparent, ...a.borderOrangeFaded, ...a.border3 }
-				: variant === "tertiary"
-					? a.bgGray50
-					: variant === "link"
-						? a.bgTransparent
-						: variant === "destructive"
-							? a.bgRed
-							: a.bgOrange;
+	};
 
 	useEffectIgnoreDeps(() => {
 		if (animationType === "spin" && resetAnimation) {
@@ -111,21 +102,18 @@ export function Button(props: ButtonProps) {
 		}
 	}, [resetAnimation, animationType]);
 
+	const overrideNonStandardButtonStyles = !isStandardButton
+		? { backgroundColor: "transparent" }
+		: {};
+
 	return (
-		<Animated.View style={f([a.itemsCenter, a.justifyCenter, style])}>
+		<Animated.View style={f([styles.animatedContainer, style])}>
 			<Pressable
 				{...rest}
 				style={f([
-					a.relative,
-					a.itemsCenter,
-					a.justifyCenter,
+					styles.container(isStandardButton),
 					buttonStyles,
-					isStandardButton && {
-						...variantStyles,
-						...a.h15,
-						...a.px6,
-						...a.roundedFull,
-					},
+					overrideNonStandardButtonStyles,
 				])}
 				onPress={invokeOnPress}
 				onPressIn={() => onPressInOut("in")}
@@ -134,13 +122,13 @@ export function Button(props: ButtonProps) {
 				aria-label={accessibilityLabel}
 				accessibilityState={{ disabled: isDisabled, busy: isPending }}
 			>
-				<View style={a.flexRow}>
+				<View style={styles.wrapper}>
 					<Text size={size} weight={weight}>
 						{children}
 					</Text>
 				</View>
 			</Pressable>
-			<View style={f([a.absolute, a.right7, a.top4])}>
+			<View style={styles.spinner}>
 				<Animated.View style={loaderStyle}>
 					<Loader />
 				</Animated.View>
@@ -148,3 +136,48 @@ export function Button(props: ButtonProps) {
 		</Animated.View>
 	);
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+	container: (isStandardButton: boolean) => ({
+		position: "relative",
+		justifyContent: "center",
+		alignItems: "center",
+		height: isStandardButton ? size["64px"] : size.auto,
+		paddingHorizontal: isStandardButton ? size["24px"] : size.auto,
+		borderRadius: isStandardButton ? radii.full : radii.none,
+		borderWidth: size["4px"],
+		variants: {
+			variant: {
+				primary: {
+					backgroundColor: theme.button.primary,
+					borderColor: theme.button.primaryBorderColor,
+				},
+				secondary: {
+					backgroundColor: theme.button.secondary,
+					borderColor: theme.button.secondaryBorderColor,
+				},
+				tertiary: {
+					backgroundColor: theme.button.tertiary,
+				},
+				link: {
+					backgroundColor: theme.button.tertiary,
+				},
+				destructive: {
+					backgroundColor: theme.button.desctructive,
+				},
+			},
+		},
+	}),
+	wrapper: {
+		flexDirection: "row",
+	},
+	spinner: {
+		position: "absolute",
+		right: size["28px"],
+		top: size["16px"],
+	},
+	animatedContainer: {
+		alignItems: "center",
+		justifyContent: "center",
+	},
+}));
