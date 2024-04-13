@@ -3,9 +3,10 @@ import type {
 	TextProps as NativeTextProps,
 	TextStyle,
 } from "react-native";
-import { Text as NativeText, StyleSheet } from "react-native";
+import { Text as NativeText } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { atoms as a } from "#/app/design-system/atoms";
+import { colors, type Colors } from "#/app/design-system/colors";
 import { maxFontSizeMultiplier } from "#/app/design-system/constants/maxFontSizeMultiplier";
 import type {
 	FontSizes,
@@ -21,8 +22,9 @@ export type BaseTextProps = {
 	size?: FontSizes;
 	weight?: FontWeight;
 	level?: TextTypes;
-	styles?: TextStyle;
+	overideStyles?: TextStyle;
 	withEmoji?: boolean;
+	color?: Colors;
 	a11yHint?: string;
 	isError?: boolean;
 };
@@ -35,10 +37,13 @@ export function Text({
 	size = level === "heading" ? "18px" : "16px",
 	withEmoji = false,
 	a11yHint,
-	styles,
+	color,
+	overideStyles,
 	isError = false,
 	children,
 }: TextProps) {
+	const { styles } = useStyles(stylesheet);
+
 	const renderChildren = useMemo(() => {
 		return React.Children.map(children, (child) => {
 			if (typeof child === "string") {
@@ -59,23 +64,19 @@ export function Text({
 		});
 	}, [children, withEmoji]);
 
-	const _styles = useMemo(
-		() =>
-			StyleSheet.create({
-				text: {
-					...(level === "heading"
-						? typeHierarchy.heading[size]
-						: typeHierarchy.text[size]),
-					fontFamily: fontWeight[weight],
-					color: isError ? a.textRed500.color : a.textSlate50.color,
-				},
-			}),
-		[level, size, weight, isError],
-	);
+	const textStyle = (
+		styles.text as (
+			size: FontSizes,
+			level: TextTypes,
+			weight: FontWeight,
+			color: Colors | undefined,
+			isError: boolean,
+		) => TextStyle
+	)(size, level, weight, color, isError);
 
 	return (
 		<NativeText
-			style={[_styles.text, f(styles)]}
+			style={f([textStyle, overideStyles])}
 			maxFontSizeMultiplier={maxFontSizeMultiplier}
 			accessibilityRole={level === "heading" ? "header" : "text"}
 			accessibilityHint={a11yHint}
@@ -84,3 +85,24 @@ export function Text({
 		</NativeText>
 	);
 }
+
+// biome-ignore lint/suspicious/noExplicitAny: <unknown>
+const stylesheet = createStyleSheet((theme): any => ({
+	text: (
+		size: FontSizes,
+		level: TextTypes,
+		weight: FontWeight,
+		color: Colors,
+		isError: boolean,
+	): TextStyle => ({
+		...(level === "heading"
+			? typeHierarchy.heading[size]
+			: typeHierarchy.text[size]),
+		fontFamily: fontWeight[weight],
+		color: color
+			? colors[color]
+			: isError
+				? theme.color.errorText
+				: theme.color.mainText,
+	}),
+}));
