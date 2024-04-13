@@ -103,7 +103,7 @@ export function Button(props: ButtonProps) {
 	}, [resetAnimation, animationType]);
 
 	const overrideNonStandardButtonStyles = !isStandardButton
-		? { backgroundColor: "transparent" }
+		? { backgroundColor: "transparent", borderColor: "transparent" }
 		: {};
 
 	return (
