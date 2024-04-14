@@ -1,4 +1,5 @@
 import {
+	BottomSheetBackdrop,
 	BottomSheetModal,
 	BottomSheetModalProvider,
 	BottomSheetTextInput,
@@ -82,7 +83,7 @@ export function CardListScreen({
 	const [isFlipped, setIsFlipped] = useState(false);
 	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-	const snapPoints = useMemo(() => ["25%", "50%"], []);
+	const snapPoints = useMemo(() => ["35%", "35%"], []);
 
 	const rotateY = useSharedValue(0);
 	const gameVisibility = useSharedValue(0);
@@ -287,20 +288,25 @@ export function CardListScreen({
 				)}
 			</View>
 			<BottomSheetModal
+				index={1}
 				ref={bottomSheetModalRef}
 				keyboardBehavior="fillParent"
 				snapPoints={snapPoints}
 				backgroundStyle={f([a.bgSlate950])}
+				backdropComponent={BottomSheetBackdrop}
 			>
 				<YStack margin="18px" gutter="11px">
 					<BottomSheetTextInput
 						style={f([...inputStyles])}
+						placeholderTextColor="white"
 						placeholder="Question"
 					/>
 					<BottomSheetTextInput
 						style={f([...inputStyles])}
+						placeholderTextColor="white"
 						placeholder="Answer"
 					/>
+					<Button>Add</Button>
 				</YStack>
 			</BottomSheetModal>
 		</BottomSheetModalProvider>

@@ -1,11 +1,10 @@
-import HapticFeedback, {
-	type HapticFeedbackTypes,
-} from "react-native-haptic-feedback";
+import type { HapticFeedbackTypes } from "react-native-haptic-feedback";
+import HapticFeedback from "react-native-haptic-feedback";
 
-import { usePreferencesStore } from "#/app/store/preferences";
+import { state$ } from "#/app/store";
 
 export function useHapticFeedback() {
-	const { hapticFeedback } = usePreferencesStore();
+	const hapticFeedback = state$.get().hapticFeedback;
 
 	function invokeHapticFeedback() {
 		if (hapticFeedback) {

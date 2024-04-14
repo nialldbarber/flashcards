@@ -2,7 +2,7 @@ import type { ModalScreenProps } from "@react-navigation/modal";
 import type { NavigatorScreenParams } from "@react-navigation/native";
 import type { StackScreenProps } from "@react-navigation/stack";
 
-import type { Flashcard } from "#/app/store/flashcards";
+import type { Flashcard } from "#/app/store";
 
 export type RootStackParamList = {
 	Home: undefined;

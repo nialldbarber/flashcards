@@ -16,7 +16,7 @@ import Animated, {
 import { atoms as a } from "#/app/design-system/atoms";
 import { Text } from "#/app/design-system/components/text";
 import { f } from "#/app/design-system/utils/flatten";
-import type { Flashcard } from "#/app/store/flashcards";
+import type { Flashcard } from "#/app/store";
 
 export type SwipeCardProps = {
 	flashcard: Flashcard;

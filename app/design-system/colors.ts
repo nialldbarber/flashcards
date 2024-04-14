@@ -11,21 +11,9 @@ export const baseColors = {
 export const greyColors = {
 	greyOne: "rgb(248 250 252)",
 	greyTwo: "rgb(30 41 59)",
-
-	// greyOne: "#e5e7eb",
-	// greyTwo: "#d1d5db",
-	// greyThree: "#f7f7f7",
-	// greyFour: "#717171",
-	// greyFive: "#eef1ee",
-	// greySix: "rgba(209, 213, 219, 0.09)",
-	// greySeven: "rgba(209, 213, 219, 0.1)",
-	// greyEight: "rgba(209, 213, 219, 0.2)",
 } as const;
 
 export const coreColors = {
-	/**
-	 * Orange color
-	 */
 	primary: "#734536",
 	primaryDark: "#02b52b",
 	primaryLight: "rgba(0, 214, 50, 0.5)",
@@ -42,6 +30,28 @@ export const tonalColors = {
 	orangeLight: "#fae5e1",
 } as const;
 
+export const themeColors = [
+	{ color: "blue", hex: "#0091ff", faded: "rgba(0, 145, 255, 0.2)" },
+	{ color: "red", hex: "#e5484d", faded: "rgba(229, 72, 77, 0.2)" },
+	{ color: "pink", hex: "#d6409f", faded: "rgba(214, 64, 159, 0.2)" },
+	{
+		color: "orange",
+		hex: "#f76808",
+		faded: "rgba(247, 104, 8, 0.2)",
+	},
+	{
+		color: "green",
+		hex: "#30a46c",
+		faded: "rgba(48, 164, 108, 0.2)",
+	},
+	{
+		color: "yellow",
+		hex: "#f5d90a",
+		faded: "rgba(245, 217, 10, 0.2)",
+	},
+] as const;
+
+export type ThemeColor = (typeof themeColors)[number];
 export type BaseColors = keyof typeof baseColors;
 export type GreyColors = keyof typeof greyColors;
 export type CoreColors = keyof typeof coreColors;

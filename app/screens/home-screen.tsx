@@ -16,6 +16,7 @@ import { z } from "zod";
 import { Pressable } from "#/app/components/core/pressable";
 import { List } from "#/app/components/list";
 import { atoms as a } from "#/app/design-system/atoms";
+import { themeColors } from "#/app/design-system/colors";
 import { Button } from "#/app/design-system/components/button";
 import { Input } from "#/app/design-system/components/input";
 import { Layout } from "#/app/design-system/components/scroll-layout";
@@ -24,10 +25,7 @@ import { Text } from "#/app/design-system/components/text";
 import { f } from "#/app/design-system/utils/flatten";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import { useModal } from "#/app/hooks/useModal";
-import {
-	themeColors,
-	useFlashcardsStore,
-} from "#/app/store/flashcards";
+import { state$ } from "#/app/store/";
 
 const groupSchema = z.object({
 	name: z
@@ -43,9 +41,10 @@ export type Group = z.infer<typeof groupSchema>;
 const ICON_SIZE = 70;
 
 export function HomeScreen() {
+	const { groups, addGroup } = state$.get();
+
 	const { t } = useTranslation();
 	const { navigate } = useNavigation();
-	const { groups, addGroup } = useFlashcardsStore();
 	const { width, height } = useWindowDimensions();
 	const {
 		r,
