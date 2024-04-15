@@ -42,7 +42,6 @@ const ICON_SIZE = 70;
 
 export function HomeScreen() {
 	const { groups, addGroup } = state$.get();
-
 	const { t } = useTranslation();
 	const { navigate } = useNavigation();
 	const { width, height } = useWindowDimensions();

@@ -1,8 +1,6 @@
 import {
-	BottomSheetBackdrop,
-	BottomSheetModal,
 	BottomSheetModalProvider,
-	BottomSheetTextInput,
+	type BottomSheetModal,
 } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -11,11 +9,11 @@ import { produce } from "immer";
 import {
 	useCallback,
 	useEffect,
-	useMemo,
 	useReducer,
 	useRef,
 	useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import Animated, {
 	Extrapolation,
@@ -25,19 +23,22 @@ import Animated, {
 	withSpring,
 	withTiming,
 } from "react-native-reanimated";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { Pressable } from "#/app/components/core/pressable";
-import { atoms as a } from "#/app/design-system/atoms";
-import { Button } from "#/app/design-system/components/button";
-import { inputStyles } from "#/app/design-system/components/input";
+import { colors } from "#/app/design-system/colors";
+import {
+	Button,
+	type Variant,
+} from "#/app/design-system/components/button";
 import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Spacer } from "#/app/design-system/components/spacer";
-import { XStack } from "#/app/design-system/components/stacks/x-stack";
-import { YStack } from "#/app/design-system/components/stacks/y-stack";
 import { Text } from "#/app/design-system/components/text";
-import { f } from "#/app/design-system/utils/flatten";
+import { radii } from "#/app/design-system/radii";
+import { space } from "#/app/design-system/space";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import type { RootStackParamList } from "#/app/navigation/types";
+import { CardListModal } from "#/app/screens/card-list.modal";
 
 type Props = NativeStackScreenProps<RootStackParamList, "CardList">;
 
@@ -76,14 +77,14 @@ export function CardListScreen({
 		params: { name, emoji, flashcards },
 	},
 }: Props) {
+	const { t } = useTranslation();
+	const { styles } = useStyles(stylesheet);
+
 	const { navigate } = useNavigation();
 	const noFlashcards = flashcards.length === 0;
 	const flashcardsInDeck = flashcards.length;
 
 	const [isFlipped, setIsFlipped] = useState(false);
-	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-	const snapPoints = useMemo(() => ["35%", "35%"], []);
 
 	const rotateY = useSharedValue(0);
 	const gameVisibility = useSharedValue(0);
@@ -150,6 +151,7 @@ export function CardListScreen({
 
 	const currentCard = flashcards[currentCardIndex];
 
+	const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 	const handlePresentModalPress = useCallback(() => {
 		bottomSheetModalRef.current?.present();
 	}, []);
@@ -166,77 +168,58 @@ export function CardListScreen({
 		}
 	}, [gameStarted]);
 
-	const cardStyles = [
-		a.absolute,
-		a.top0,
-		a.left0,
-		a.right0,
-		a.bottom28,
-		a.flex,
-		a.itemsCenter,
-		a.justifyCenter,
-	];
-
 	return (
 		<BottomSheetModalProvider>
 			<Layout>
-				<Pressable onPress={() => navigate("Home")}>
+				<Pressable
+					accessibilityLabel={t(
+						"screens.card-list.a11y.goToHomeScreen",
+					)}
+					onPress={() => navigate("Home")}
+				>
 					<ArrowLeft size={40} variant="Bulk" color="#FF8A65" />
 				</Pressable>
-				<View style={f([a.itemsCenter])}>
+				<View style={styles.heading}>
 					<Text level="heading" size="30px" withEmoji>
 						{name} {emoji}
 					</Text>
 				</View>
 				{noFlashcards ? (
-					<View
-						style={f([
-							a.bgBlue500,
-							a.hFull,
-							a.itemsCenter,
-							a.justifyCenter,
-						])}
-					>
-						<Text>You have no flashcards</Text>
+					<View style={styles.noFlashcards}>
+						<Text>{t("screens.card-list.noFlashcards")}</Text>
 					</View>
 				) : (
 					gameStarted &&
 					!gameEnded && (
 						<Animated.View
-							style={[
-								gameVisibilityStyles,
-								f([
-									a.relative,
-									a.wFull,
-									a.hFull,
-									a.my7,
-									a.itemsCenter,
-									a.justifyCenter,
-									a.p5,
-								]),
-							]}
+							style={[gameVisibilityStyles, styles.gameVisibility]}
 						>
 							<Pressable
+								accessibilityLabel={t(
+									"screens.card-list.a11y.flashcard",
+								)}
 								onPress={flipCard}
-								style={f([...cardStyles])}
+								style={styles.card}
 							>
 								<Animated.View
 									style={[
-										f([...cardStyles, a.bgOrangeFaded, a.roundedXl]),
+										styles.card,
+										styles.controlButton("primary"),
 										frontAnimatedStyle,
 									]}
 								>
-									<Text style={f([a.textWhite, a.textCenter])}>
+									<Text style={styles.controlButtonText}>
 										{currentCard.question}
 									</Text>
 								</Animated.View>
 								<Animated.View
 									style={[
-										f([...cardStyles, a.bgSlate800, a.roundedXl]),
+										styles.card,
+										styles.controlButton("secondary"),
 										backAnimatedStyle,
 									]}
 								>
-									<Text style={f([a.textWhite, a.textCenter])}>
+									<Text style={styles.controlButtonText}>
 										{currentCard.answer}
 									</Text>
 								</Animated.View>
@@ -245,70 +228,118 @@ export function CardListScreen({
 					)
 				)}
 			</Layout>
-			<View style={f([a.px6, a.pt5, a.pb10])}>
+			<View style={styles.controlContainer}>
 				{flashcardsInDeck && !gameStarted ? (
-					<Button onPress={startGame}>Start</Button>
+					<Button
+						accessibilityLabel={t(
+							"screens.card-list.a11y.startExercise",
+						)}
+						onPress={startGame}
+					>
+						{t("screens.card-list.control.start")}
+					</Button>
 				) : null}
 				<Spacer size="16px" />
 				{!gameStarted ? (
 					<Button
+						accessibilityLabel={t(
+							"screens.card-list.a11y.addFlashcard",
+						)}
 						variant="secondary"
 						onPress={handlePresentModalPress}
 					>
-						Add
+						{t("screens.card-list.control.add")}
 					</Button>
 				) : null}
 				{gameStarted && !gameEnded && (
 					<>
-						<Button onPress={() => answerAndFlipCard(true)}>
-							<Text withEmoji>Correct ✅</Text>
+						<Button
+							accessibilityLabel={t("screens.card-list.a11y.correct")}
+							onPress={() => answerAndFlipCard(true)}
+						>
+							<Text withEmoji>
+								{t("screens.card-list.control.correct")}
+							</Text>
 						</Button>
 						<Spacer size="16px" />
 						<Button
+							accessibilityLabel={t(
+								"screens.card-list.a11y.incorrect",
+							)}
 							variant="secondary"
 							onPress={() => answerAndFlipCard(false)}
 						>
-							<Text withEmoji>Incorrect ❌</Text>
+							<Text withEmoji>
+								{t("screens.card-list.control.incorrect")}
+							</Text>
 						</Button>
 					</>
 				)}
-				<XStack>
-					<Text>
-						{currentCardIndex + 1}/{cards.length}
-					</Text>
-					<Text>Score: {score}</Text>
-				</XStack>
 				{gameEnded && (
 					<>
 						<Text>
-							Your score: {score}/{cards.length}
+							{t("screens.card-list.score.finalScore", {
+								score,
+								flashcardCount: cards.length,
+							})}
 						</Text>
-						<Button onPress={startGame}>Replay?</Button>
+						<Button
+							accessibilityLabel={t(
+								"screens.card-list.a11y.replayExercise",
+							)}
+							onPress={startGame}
+						>
+							{t("screens.card-list.score.replay")}
+						</Button>
 					</>
 				)}
 			</View>
-			<BottomSheetModal
-				index={1}
-				ref={bottomSheetModalRef}
-				keyboardBehavior="fillParent"
-				snapPoints={snapPoints}
-				backgroundStyle={f([a.bgSlate950])}
-				backdropComponent={BottomSheetBackdrop}
-			>
-				<YStack margin="18px" gutter="11px">
-					<BottomSheetTextInput
-						style={f([...inputStyles])}
-						placeholderTextColor="white"
-						placeholder="Question"
-					/>
-					<BottomSheetTextInput
-						style={f([...inputStyles])}
-						placeholderTextColor="white"
-						placeholder="Answer"
-					/>
-					<Button>Add</Button>
-				</YStack>
-			</BottomSheetModal>
+			<CardListModal ref={bottomSheetModalRef} />
 		</BottomSheetModalProvider>
 	);
 }
+
+const stylesheet = createStyleSheet(() => ({
+	heading: {
+		alignItems: "center",
+	},
+	noFlashcards: {
+		backgroundColor: colors.orangeLight,
+		height: "100%",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	card: {
+		flex: 1,
+		alignItems: "center",
+		justifyContent: "center",
+		position: "absolute",
+		top: space["0px"],
+		left: space["0px"],
+		right: space["0px"],
+		bottom: space["115px"],
+	},
+	gameVisibility: {
+		position: "relative",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "100%",
+		height: "100%",
+		marginVertical: space["28px"],
+		padding: space["20px"],
+	},
+	controlContainer: {
+		paddingHorizontal: space["24px"],
+		paddingTop: space["20px"],
+		paddingBottom: space["42px"],
+	},
+	controlButton: (variant?: Variant) => ({
+		borderRadius: radii.large,
+		backgroundColor:
+			variant === "primary" ? colors.orange : colors.greyTwo,
+	}),
+	controlButtonText: {
+		color: colors.white,
+		textAlign: "center",
+	},
+}));

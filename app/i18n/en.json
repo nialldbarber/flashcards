@@ -18,6 +18,29 @@
 			"createNewGroupEmojiPlaceholder": "Add an emoji",
 			"selectEmojiError": "Please select an emoji"
 		},
+		"card-list": {
+			"noFlashcards": "You have no flashcards",
+			"a11y": {
+				"goToHomeScreen": "Go to the home screen",
+				"flashcard": "Press to flip the flashcard",
+				"startExercise": "Start exercise",
+				"addFlashcard": "Add flashcard",
+				"correct": "Correct answer?",
+				"incorrect": "Incorrect answer?",
+				"replayExercise": "Replay exercise?"
+			},
+			"score": {
+				"score": "Score: {{ score }}",
+				"finalScore": "Final score: {{ score }}/{{ flashcardCount }}",
+				"replay": "Replay"
+			},
+			"control": {
+				"start": "Start",
+				"add": "Add",
+				"correct": "Correct ✅",
+				"incorrect": "Incorrect ❌"
+			}
+		},
 		"settings": {
 			"header": "Settings",
 			"a11y": {

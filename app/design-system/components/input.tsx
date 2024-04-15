@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { TextInput } from "react-native";
 
-import { atoms as a } from "#/app/design-system/atoms";
 import { size } from "#/app/design-system/size";
 import { useHapticFeedback } from "#/app/hooks/useHapticFeedback";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
@@ -13,21 +12,8 @@ type Props = {
 	onChange: (...event: any[]) => void;
 };
 
-export const inputStyles = [
-	a.roundedLg,
-	a.p4,
-	a.textLg,
-	a.fontSemiBold,
-	a.textBase,
-	a.border,
-	a.border3,
-	a.textWhite,
-	a.bgSlate800,
-	a.borderSlate800,
-];
-
 export function Input({ placeholder, value, onChange }: Props) {
-	const { styles } = useStyles(stylesheet);
+	const { styles } = useStyles(inputStylesheet);
 	const { invokeHapticFeedback } = useHapticFeedback();
 
 	const [isFocused, setIsFocused] = useState(false);
@@ -46,7 +32,7 @@ export function Input({ placeholder, value, onChange }: Props) {
 	);
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+export const inputStylesheet = createStyleSheet((theme) => ({
 	container: (isFocused: boolean) => ({
 		borderRadius: size["8px"],
 		padding: size["16px"],

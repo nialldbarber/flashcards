@@ -1,9 +1,10 @@
-import type { ThemeColor } from "#/app/design-system/colors";
-import { dummyData } from "#/app/store/data";
 import { observable } from "@legendapp/state";
 import { enableReactComponents } from "@legendapp/state/config/enableReactComponents";
 import { persistObservable } from "@legendapp/state/persist";
 import { ObservablePersistMMKV } from "@legendapp/state/persist-plugins/mmkv";
+
+import type { ThemeColor } from "#/app/design-system/colors";
+import { dummyData } from "#/app/store/data";
 
 enableReactComponents();
 
@@ -27,18 +28,46 @@ export type Flashcard = {
 	answer: string;
 };
 
+export type Game = {
+	gameStarted: boolean;
+	gameEnded: boolean;
+	currentCardIndex: number;
+	score: number;
+	cards: Flashcard[];
+};
+
 type State = {
+	/**
+	 * Haptics
+	 */
 	hapticFeedback: boolean;
+	/**
+	 * Flashcards
+	 */
 	groups: Group[];
+	/**
+	 * Game
+	 */
+	game: Game;
 };
 
 type Actions = {
+	/**
+	 * Haptics
+	 */
 	setHapticFeedback: (hapticFeedback: boolean) => void;
+	/**
+	 * Flashcards
+	 */
 	addGroup: (group: GroupDetails) => void;
 	removeGroup: (groupId: string) => void;
-	addFlashcard: (groupId: string, flashcard: Flashcard) => void;
-	removeFlashcard: (groupId: string, flashcardId: string) => void;
-	addPreviousScore: (groupId: string, score: number) => void;
+	/**
+	 * Game
+	 */
+	setCards: (cards: Flashcard[]) => void;
+	startGame: () => void;
+	answerCard: (correct: boolean) => void;
+	endGame: () => void;
 };
 
 type Store = State & Actions;
@@ -71,45 +100,22 @@ export const state$ = observable<Store>({
 				.groups.filter((group: Group) => group.id !== groupId),
 		});
 	},
-	addFlashcard: (groupId: string, flashcard: Flashcard) => {
-		state$.assign({
-			groups: state$.get().groups.map((group) => {
-				if (group.id === groupId) {
-					return {
-						...group,
-						flashcards: [...group.flashcards, flashcard],
-					};
-				}
-				return group;
-			}),
-		});
+	/**
+	 * Game
+	 */
+	game: {
+		gameStarted: false,
+		gameEnded: false,
+		currentCardIndex: 0,
+		score: 0,
+		cards: [],
 	},
-	removeFlashcard: (groupId: string, flashcardId: string) => {
+	setCards: (cards: Flashcard[]) => {
 		state$.assign({
-			groups: state$.get().groups.map((group) => {
-				if (group.id === groupId) {
-					return {
-						...group,
-						flashcards: group.flashcards.filter(
-							(flashcard) => flashcard.id !== flashcardId,
-						),
-					};
-				}
-				return group;
-			}),
-		});
-	},
-	addPreviousScore: (groupId: string, score: number) => {
-		state$.assign({
-			groups: state$.get().groups.map((group) => {
-				if (group.id === groupId) {
-					return {
-						...group,
-						previousScore: score,
-					};
-				}
-				return group;
-			}),
+			game: {
+				...state$.get().game,
+				cards,
+			},
 		});
 	},
 });
