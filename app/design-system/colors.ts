@@ -24,6 +24,7 @@ export const coreColors = {
 	success: "#DCFCE6",
 	warning: "#FEF9C3",
 	error: "#FDE2E1",
+	brandMain: "#FF8A65",
 } as const;
 
 export const tonalColors = {

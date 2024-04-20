@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { FlatList, View, useWindowDimensions } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 import uuid from "react-native-uuid";
 import EmojiPicker, { type EmojiType } from "rn-emoji-keyboard";
 import { z } from "zod";
@@ -16,16 +17,19 @@ import { z } from "zod";
 import { Pressable } from "#/app/components/core/pressable";
 import { List } from "#/app/components/list";
 import { atoms as a } from "#/app/design-system/atoms";
-import { themeColors } from "#/app/design-system/colors";
+import { colors, themeColors } from "#/app/design-system/colors";
 import { Button } from "#/app/design-system/components/button";
 import { Input } from "#/app/design-system/components/input";
 import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
+import { space } from "#/app/design-system/space";
 import { f } from "#/app/design-system/utils/flatten";
+import { zIndex } from "#/app/design-system/z-index";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import { useModal } from "#/app/hooks/useModal";
 import { state$ } from "#/app/store/";
+import { radii } from "../design-system/radii";
 
 const groupSchema = z.object({
 	name: z
@@ -42,6 +46,7 @@ const ICON_SIZE = 70;
 
 export function HomeScreen() {
 	const { groups, addGroup } = state$.get();
+	const { styles } = useStyles(stylesheet);
 	const { t } = useTranslation();
 	const { navigate } = useNavigation();
 	const { width, height } = useWindowDimensions();
@@ -132,34 +137,20 @@ export function HomeScreen() {
 
 	return (
 		<>
-			<View
-				style={f([
-					a.fillSpace,
-					a.itemsCenter,
-					isModalOpen ? a.z10 : a._z2,
-				])}
-			>
+			<View style={styles.container(isModalOpen)}>
 				<Canvas style={{ width, height }}>
 					<Circle
 						cx={width / 2}
 						cy={height}
 						r={r}
-						color={a.bgDarkBlue.backgroundColor}
+						color={colors.darkBlue}
 					/>
 				</Canvas>
 			</View>
 			<>
 				<Layout scrollable={false}>
-					{/* <DebugLayout> */}
 					<Animated.View style={animatedStyle}>
-						<View
-							style={f([
-								a.itemsStart,
-								a.justifyBetween,
-								a.flexRow,
-								a.my5,
-							])}
-						>
+						<View style={styles.cardListContainer}>
 							<Text level="heading" size="30px">
 								{t("app-title")}
 							</Text>
@@ -171,11 +162,15 @@ export function HomeScreen() {
 									"screens.home.a11y.goToSettings",
 								)}
 							>
-								<Setting2 size="40" color="#FF8A65" variant="Bulk" />
+								<Setting2
+									size="40"
+									color={colors.brandMain}
+									variant="Bulk"
+								/>
 							</Pressable>
 						</View>
 
-						<View style={f([a.mt4])}>
+						<View style={styles.searchContainer}>
 							<Input
 								value=""
 								onChange={() => {}}
@@ -183,7 +178,7 @@ export function HomeScreen() {
 							/>
 						</View>
 
-						<View style={f([a.mt5])}>
+						<View style={styles.groupContainer}>
 							{noGroupsExist ? (
 								<View>
 									<Text>{t("screens.home.noGroups")}</Text>
@@ -197,21 +192,10 @@ export function HomeScreen() {
 											<Pressable
 												key={item.id}
 												animate
-												style={f([
-													a.flexRow,
-													a.itemsCenter,
-													a.justifyCenter,
-													a.py4,
-													a.mb6,
-													a.roundedFull,
-													{
-														borderColor:
-															item?.themeColor?.hex ?? "#9162c0",
-														borderWidth: 2,
-														backgroundColor:
-															item?.themeColor?.faded ?? "#9162c025",
-													},
-												])}
+												style={styles.flashcardListItem(
+													item.themeColor.hex,
+													item.themeColor.faded,
+												)}
 												routeName="CardList"
 												routeParams={{
 													name: item.name,
@@ -229,7 +213,6 @@ export function HomeScreen() {
 							)}
 						</View>
 					</Animated.View>
-					{/* </DebugLayout> */}
 				</Layout>
 			</>
 			<View
@@ -394,3 +377,38 @@ export function HomeScreen() {
 		</>
 	);
 }
+
+const stylesheet = createStyleSheet(() => ({
+	container: (isModalOpen) => ({
+		position: "absolute",
+		top: space["0px"],
+		left: space["0px"],
+		right: space["0px"],
+		bottom: space["0px"],
+		alignItems: "center",
+		zIndex: isModalOpen ? zIndex["10px"] : zIndex["2px"],
+	}),
+	cardListContainer: {
+		alignItems: "flex-start",
+		justifyContent: "center",
+		flexDirection: "row",
+		marginVertical: space["5px"],
+	},
+	searchContainer: {
+		marginTop: space["16px"],
+	},
+	groupContainer: {
+		marginTop: space["20px"],
+	},
+	flashcardListItem: (hex, faded) => ({
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		paddingVertical: space["16px"],
+		marginBottom: space["24px"],
+		borderRadius: radii.full,
+		borderWidth: space["2px"],
+		borderColor: hex ?? "#9162c0",
+		backgroundColor: faded ?? "#9162c025",
+	}),
+}));
