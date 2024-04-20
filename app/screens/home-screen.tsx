@@ -16,7 +16,6 @@ import { z } from "zod";
 
 import { Pressable } from "#/app/components/core/pressable";
 import { List } from "#/app/components/list";
-import { atoms as a } from "#/app/design-system/atoms";
 import { colors, themeColors } from "#/app/design-system/colors";
 import { Button } from "#/app/design-system/components/button";
 import { Input } from "#/app/design-system/components/input";
@@ -215,29 +214,12 @@ export function HomeScreen() {
 					</Animated.View>
 				</Layout>
 			</>
-			<View
-				style={f([
-					// a.absolute,
-					a.bottom10,
-					a.right0,
-					a.left0,
-					a.z12,
-					// { left: calculateLeft },
-					{ width },
-				])}
-			>
+			<View style={f([styles.gradientContainer, { width }])}>
 				<LinearGradient
-					colors={["transparent", a.bgSlate950.backgroundColor]}
+					colors={["transparent", colors.black]}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
-					style={{
-						position: "absolute",
-						zIndex: 999,
-						left: 0,
-						right: 0,
-						// height: 50,
-						bottom: 0,
-					}}
+					style={styles.gradient}
 				>
 					<Button
 						// eventName="CREATE_NEW_GROUP"
@@ -249,25 +231,17 @@ export function HomeScreen() {
 					>
 						<AddCircle
 							size={ICON_SIZE}
-							color="#FF8A65"
+							color={colors.brandMain}
 							variant="Bulk"
 						/>
 					</Button>
 				</LinearGradient>
 			</View>
 			<Animated.View
-				style={[
+				style={f([
 					offscreenAnimatedStyle,
-					f([
-						a.absolute,
-						a.right8,
-						a.left5,
-						a.right5,
-						a.z12,
-						isModalOpen ? a.z12 : a._z2,
-						{ top: 200 },
-					]),
-				]}
+					styles.groupModal(isModalOpen),
+				])}
 			>
 				<Text>{t("screens.home.addNewGroup")}</Text>
 				<Controller
@@ -283,84 +257,60 @@ export function HomeScreen() {
 					)}
 					name="name"
 				/>
-				<View style={f([a.h7, a.justifyCenter])}>
-					<Text overideStyles={f([a.textXs, a.p0, a.m0])} isError>
+				<View style={styles.errorMessageContainer}>
+					<Text
+						size="12px"
+						overideStyles={styles.errorMessage}
+						isError
+					>
 						{errors.name?.message}
 					</Text>
 				</View>
 				<Spacer size="12px" />
 				<Pressable
-					style={f([a.flexRow, a.itemsCenter, a.justifyCenter])}
+					style={styles.newGroupContainer}
 					onPress={() => setIsOpen(true)}
 					accessibilityLabel={t(
 						"screens.home.a11y.createNewGroupEmoji",
 					)}
 					animate
 				>
-					<AddSquare size={25} color="#FF8A65" variant="Bulk" />
-					<View style={f([a.ml2])}>
+					<AddSquare
+						size={25}
+						color={colors.brandMain}
+						variant="Bulk"
+					/>
+					<View style={styles.addEmoji}>
 						<Text>Add an emoji</Text>
 					</View>
-					<View style={f([a.ml2])}>
+					<View style={styles.addEmoji}>
 						<Text>{selectEmoji?.emoji}</Text>
 					</View>
 				</Pressable>
-				<Text>{}</Text>
 				<EmojiPicker
 					onEmojiSelected={(emoji) => setSelectEmoji(emoji)}
 					open={isOpen}
 					onClose={() => setIsOpen(false)}
 				/>
-				<View style={f([a.h7, a.justifyCenter])}>
+				<View style={styles.errorMessageContainer}>
 					{selectEmojiError && (
-						<Text overideStyles={f([a.textXs])} isError>
+						<Text overideStyles={styles.errorMessage} isError>
 							{t("screens.home.selectEmojiError")}
 						</Text>
 					)}
 				</View>
-				<View
-					style={f([
-						a.flex,
-						a.flexRow,
-						a.justifyCenter,
-						a.mt4,
-						a.mb7,
-					])}
-				>
+				<View style={styles.themes}>
 					{themeColors.map(({ color, hex }, index) => (
 						<Animated.View
 							key={`${color}-${hex}-${index}`}
-							style={f([
-								a.relative,
-								a.w7,
-								a.h7,
-								a.mx2,
-								a.justifyCenter,
-								a.itemsCenter,
-							])}
+							style={styles.themeCircleContainer}
 						>
 							<Pressable
 								onPress={() => setIsThemeColorSelected(index)}
-								style={f([
-									a.wFull,
-									a.hFull,
-									{ backgroundColor: hex },
-									a.roundedFull,
-								])}
+								style={styles.themeCircle(hex)}
 							/>
 							{isThemeColorSelected === index && (
-								<View
-									style={f([
-										a.absolute,
-										a.w10,
-										a.h10,
-										a.bgTransparent,
-										a.roundedFull,
-										a.border2,
-										a.borderSlate50,
-										a._z1,
-									])}
-								/>
+								<View style={styles.themeSelector} />
 							)}
 						</Animated.View>
 					))}
@@ -411,4 +361,70 @@ const stylesheet = createStyleSheet(() => ({
 		borderColor: hex ?? "#9162c0",
 		backgroundColor: faded ?? "#9162c025",
 	}),
+	gradientContainer: {
+		bottom: space["42px"],
+		right: space["0px"],
+		left: space["0px"],
+		zIndex: zIndex["10px"],
+	},
+	gradient: {
+		position: "absolute",
+		left: space["0px"],
+		right: space["0px"],
+		bottom: space["0px"],
+		zIndex: zIndex["999px"],
+	},
+	groupModal: (isModalOpen) => ({
+		position: "absolute",
+		left: space["20px"],
+		right: space["20px"],
+		zIndex: isModalOpen ? zIndex["10px"] : negativeSpace["-2px"],
+		top: 200,
+	}),
+	newGroupContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	addEmoji: {
+		marginLeft: space["8px"],
+	},
+	themeSelector: {
+		position: "absolute",
+		width: space["42px"],
+		height: space["42px"],
+		backgroundColor: colors.transparent,
+		borderWidth: space["2px"],
+		borderRadius: radii.full,
+		borderColor: colors.greyOne,
+		zIndex: negativeSpace["-1px"],
+	},
+	themes: {
+		flexDirection: "row",
+		justifyContent: "center",
+		marginTop: space["16px"],
+		marginBottom: space["28px"],
+	},
+	themeCircleContainer: {
+		position: "relative",
+		justifyContent: "center",
+		alignItems: "center",
+		width: space["28px"],
+		height: space["28px"],
+		marginHorizontal: space["8px"],
+	},
+	themeCircle: (hex) => ({
+		width: space.full,
+		height: space.full,
+		borderRadius: radii.full,
+		backgroundColor: hex,
+	}),
+	errorMessageContainer: {
+		height: space["28px"],
+		justifyContent: "center",
+	},
+	errorMessage: {
+		padding: space["0px"],
+		margin: space["0px"],
+	},
 }));

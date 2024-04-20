@@ -1,4 +1,5 @@
 export const space = {
+	full: "100%",
 	"0px": 0,
 	"1px": 1,
 	"2px": 2,
