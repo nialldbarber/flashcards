@@ -58,12 +58,17 @@ export function HomeScreen() {
 		invokeOpenGroupForm,
 	} = useModal();
 
+	const [searchValue, setSearchValue] = useState("");
 	const [selectEmoji, setSelectEmoji] = useState<EmojiType>();
 	const [selectEmojiError, setSelectEmojiError] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 	const [isThemeColorSelected, setIsThemeColorSelected] = useState<
 		number | null
 	>(null);
+
+	const filteredGroups = groups.filter((group) =>
+		group.name.toLowerCase().includes(searchValue.toLowerCase()),
+	);
 
 	const {
 		control,
@@ -170,8 +175,8 @@ export function HomeScreen() {
 
 						<View style={styles.searchContainer}>
 							<Input
-								value=""
-								onChange={() => {}}
+								value={searchValue}
+								onChange={(text) => setSearchValue(text)}
 								placeholder={t("screens.home.searchPlaceholderText")}
 							/>
 						</View>
@@ -183,7 +188,7 @@ export function HomeScreen() {
 								</View>
 							) : (
 								<FlatList
-									data={groups}
+									data={filteredGroups}
 									keyExtractor={(item) => item.id}
 									renderItem={({ item, index }) => (
 										<List index={index}>

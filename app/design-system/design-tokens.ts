@@ -59,8 +59,8 @@ export const lightTheme = {
 		backgroundColor: colors.greyTwo,
 		backgroundColorFocus: colors.black,
 		borderColor: colors.greyTwo,
-		placeholderTextColor: colors.greyTwo,
-		placeholderTextColorFocus: colors.greyOne,
+		placeholderTextColor: colors.greyOne,
+		placeholderTextColorFocus: colors.greyTwo,
 	},
 };
 

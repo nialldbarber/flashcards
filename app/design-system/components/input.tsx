@@ -24,7 +24,9 @@ export function Input({ placeholder, value, onChange }: Props) {
 			onChangeText={(text) => onChange(text)}
 			style={styles.container(isFocused)}
 			placeholder={placeholder}
-			placeholderTextColor={styles.placeholderTextColor(isFocused)}
+			placeholderTextColor={
+				styles.placeholderTextColor(isFocused).color
+			}
 			onFocus={() => setIsFocused(true)}
 			onBlur={() => setIsFocused(false)}
 			onPressIn={invokeHapticFeedback}
