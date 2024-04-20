@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { TextInput } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { size } from "#/app/design-system/size";
 import { useHapticFeedback } from "#/app/hooks/useHapticFeedback";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 type Props = {
 	placeholder: string;
