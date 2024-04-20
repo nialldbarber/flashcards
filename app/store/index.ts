@@ -45,10 +45,6 @@ type State = {
 	 * Flashcards
 	 */
 	groups: Group[];
-	/**
-	 * Game
-	 */
-	game: Game;
 };
 
 type Actions = {
@@ -61,16 +57,9 @@ type Actions = {
 	 */
 	addGroup: (group: GroupDetails) => void;
 	removeGroup: (groupId: string) => void;
-	/**
-	 * Game
-	 */
-	setCards: (cards: Flashcard[]) => void;
-	startGame: () => void;
-	answerCard: (correct: boolean) => void;
-	endGame: () => void;
 };
 
-type Store = State & Actions;
+interface Store extends State, Actions {}
 
 export const state$ = observable<Store>({
 	/**
@@ -98,24 +87,6 @@ export const state$ = observable<Store>({
 			groups: state$
 				.get()
 				.groups.filter((group: Group) => group.id !== groupId),
-		});
-	},
-	/**
-	 * Game
-	 */
-	game: {
-		gameStarted: false,
-		gameEnded: false,
-		currentCardIndex: 0,
-		score: 0,
-		cards: [],
-	},
-	setCards: (cards: Flashcard[]) => {
-		state$.assign({
-			game: {
-				...state$.get().game,
-				cards,
-			},
 		});
 	},
 });

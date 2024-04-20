@@ -1,25 +1,29 @@
 import { CloseCircle } from "iconsax-react-native";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { Pressable } from "#/app/components/core/pressable";
-import { atoms as a } from "#/app/design-system/atoms";
+import { colors } from "#/app/design-system/colors";
 import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Text } from "#/app/design-system/components/text";
-import { f } from "#/app/design-system/utils/flatten";
+import { space } from "#/app/design-system/space";
 import { useLanguage } from "#/app/hooks/useLanguage";
 import { storage } from "#/app/utils/mmkv";
 
 export function SettingsScreen() {
 	const { t } = useTranslation();
 	const { changeLanguage } = useLanguage();
+	const { styles } = useStyles(stylesheet);
 
 	return (
 		<Layout>
-			<View
-				style={f([a.itemsCenter, a.justifyBetween, a.flexRow, a.my5])}
-			>
-				<Text level="heading" size="30px" styles={f([a.textSlate50])}>
+			<View style={styles.container}>
+				<Text
+					level="heading"
+					size="30px"
+					overideStyles={styles.header}
+				>
 					{t("screens.settings.header")}
 				</Text>
 				<Pressable
@@ -51,3 +55,15 @@ export function SettingsScreen() {
 		</Layout>
 	);
 }
+
+const stylesheet = createStyleSheet(() => ({
+	container: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		marginVertical: space["5px"],
+	},
+	header: {
+		color: colors.greyOne,
+	},
+}));

@@ -12,9 +12,11 @@ import Animated, {
 	useSharedValue,
 	withSpring,
 } from "react-native-reanimated";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { atoms as a } from "#/app/design-system/atoms";
+import { colors } from "#/app/design-system/colors";
 import { Text } from "#/app/design-system/components/text";
+import { space } from "#/app/design-system/space";
 import { f } from "#/app/design-system/utils/flatten";
 import type { Flashcard } from "#/app/store";
 
@@ -33,6 +35,7 @@ export function SwipeCard({
 	activeIndex,
 	onResponse,
 }: SwipeCardProps) {
+	const { styles } = useStyles(stylesheet);
 	const { width, height } = useWindowDimensions();
 	const translationX = useSharedValue(0);
 
@@ -91,36 +94,17 @@ export function SwipeCard({
 		<GestureDetector gesture={gesture}>
 			<Animated.View
 				style={f([
-					a.absolute,
-					a.rounded2xl,
-					a.justifyEnd,
 					animatedCard,
-					{
-						aspectRatio: 1 / 1.67,
-						width: width * 0.8, // Maintain width as before
-						zIndex: numberOfCards - index,
-						shadowColor: "#000",
-						shadowOffset: {
-							width: 0,
-							height: 1,
-						},
-						shadowOpacity: 0.22,
-						shadowRadius: 2.22,
-						elevation: 3,
-					},
+					styles.swipeContainer(width, numberOfCards, index),
 				])}
 			>
-				<View style={f([a.bgBlue300, a.rounded3xl, { height: 500 }])}>
+				<View style={styles.gradientContainer}>
 					<LinearGradient
-						colors={["transparent", "rgba(0,0,0,0.8)"]}
-						style={f([
-							a.fillSpace,
-							a.roundedB2xl,
-							{ top: "50%", transform: [{ translateY: -50 }] },
-						])}
+						colors={["transparent", colors.experimentalBlack]}
+						style={styles.gradient}
 					/>
-					<View style={f([a.p3])}>
-						<Text style={f([a.text2xl, a.textWhite])}>
+					<View style={styles.swipeCardContainer}>
+						<Text size="26px" style={styles.swipeCardText}>
 							{flashcard.question}
 						</Text>
 					</View>
@@ -129,3 +113,47 @@ export function SwipeCard({
 		</GestureDetector>
 	);
 }
+
+const stylesheet = createStyleSheet(() => ({
+	swipeContainer: (
+		width: number,
+		numberOfCards: number,
+		index: number,
+	) => ({
+		position: "absolute",
+		borderRadius: space["16px"],
+		justifyContent: "flex-end",
+		aspectRatio: 1 / 1.67,
+		width: width * 0.8,
+		zIndex: numberOfCards - index,
+		shadowColor: colors.black,
+		shadowOffset: {
+			width: 0,
+			height: 1,
+		},
+		shadowOpacity: 0.22,
+		shadowRadius: 2.22,
+		elevation: 3,
+	}),
+	gradientContainer: {
+		backgroundColor: colors.orangeLight,
+		borderRadius: space["24px"],
+		height: 500,
+	},
+	gradient: {
+		position: "absolute",
+		left: space["0px"],
+		right: space["0px"],
+		bottom: space["0px"],
+		borderBottomLeftRadius: space["16px"],
+		borderBottomRightRadius: space["16px"],
+		top: "50%",
+		transform: [{ translateY: -50 }],
+	},
+	swipeCardContainer: {
+		padding: space["12px"],
+	},
+	swipeCardText: {
+		color: colors.white,
+	},
+}));

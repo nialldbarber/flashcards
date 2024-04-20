@@ -1,9 +1,9 @@
 import type { PropsWithChildren } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { atoms as a } from "#/app/design-system/atoms";
-import { f } from "#/app/design-system/utils/flatten";
+import { space } from "#/app/design-system/space";
 
 interface LayoutProps extends PropsWithChildren {
 	scrollable?: boolean;
@@ -11,10 +11,11 @@ interface LayoutProps extends PropsWithChildren {
 
 export function Layout({ children, scrollable = true }: LayoutProps) {
 	const Container = scrollable ? ScrollView : View;
-	const style = f([a.flex1, a.px6]);
+	const { styles } = useStyles(stylesheet);
+
 	const layoutProps = scrollable
-		? { contentContainerStyle: style }
-		: { style };
+		? { contentContainerStyle: styles.container }
+		: { style: styles.container };
 
 	return (
 		<Container {...layoutProps}>
@@ -22,3 +23,10 @@ export function Layout({ children, scrollable = true }: LayoutProps) {
 		</Container>
 	);
 }
+
+const stylesheet = createStyleSheet(() => ({
+	container: {
+		flex: 1,
+		paddingHorizontal: space["24px"],
+	},
+}));

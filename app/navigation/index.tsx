@@ -1,7 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { atoms as a } from "#/app/design-system/atoms";
+import { colors } from "#/app/design-system/colors";
 import { options } from "#/app/navigation/utils";
 import { CardListScreen } from "#/app/screens/card-list";
 import { HomeScreen } from "#/app/screens/home-screen";
@@ -11,12 +12,14 @@ const { Group, Navigator, Screen } =
 	createNativeStackNavigator<ReactNavigation.RootParamList>();
 
 export function Navigation() {
+	const { styles } = useStyles(stylesheet);
+
 	return (
 		<NavigationContainer>
 			<Navigator
 				initialRouteName="Home"
 				screenOptions={{
-					contentStyle: a.bgSlate950,
+					contentStyle: styles.home,
 				}}
 			>
 				<Screen
@@ -33,10 +36,22 @@ export function Navigation() {
 					<Screen
 						name="SettingsModal"
 						component={SettingsScreen}
-						options={{ ...options, contentStyle: a.bgDarkBlue }}
+						options={{
+							...options,
+							contentStyle: styles.settingsModal,
+						}}
 					/>
 				</Group>
 			</Navigator>
 		</NavigationContainer>
 	);
 }
+
+const stylesheet = createStyleSheet(() => ({
+	home: {
+		backgroundColor: colors.black,
+	},
+	settingsModal: {
+		backgroundColor: colors.darkBlue,
+	},
+}));

@@ -5,6 +5,7 @@ export const baseColors = {
 	whiteTwo: "#F9F4EA",
 	whiteThree: "#F2EADC",
 	pureWhite: "#fff",
+	darkBlue: "#0f172a",
 	transparent: "transparent",
 } as const;
 
@@ -51,21 +52,28 @@ export const themeColors = [
 	},
 ] as const;
 
+export const experimentalColors = {
+	experimentalBlack: "rgba(0, 0, 0, 0.8)",
+} as const;
+
 export type ThemeColor = (typeof themeColors)[number];
 export type BaseColors = keyof typeof baseColors;
 export type GreyColors = keyof typeof greyColors;
 export type CoreColors = keyof typeof coreColors;
 export type TonalColors = keyof typeof tonalColors;
+export type ExperimentalColors = keyof typeof experimentalColors;
 
 export type Colors =
 	| BaseColors
 	| GreyColors
 	| CoreColors
-	| TonalColors;
+	| TonalColors
+	| ExperimentalColors;
 
 export const colors = {
 	...baseColors,
 	...coreColors,
 	...greyColors,
 	...tonalColors,
+	...experimentalColors,
 };

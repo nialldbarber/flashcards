@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
+import { Fragment } from "react";
 import type {
 	GestureResponderEvent,
 	PressableProps as NativePressableProps,
 } from "react-native";
 import { Pressable as NativePressable, Platform } from "react-native";
+import Animated from "react-native-reanimated";
 
 import { useButtonAnimation } from "#/app/hooks/useButtonAnimation";
 import { useHapticFeedback } from "#/app/hooks/useHapticFeedback";
@@ -11,8 +13,6 @@ import { useLanguage } from "#/app/hooks/useLanguage";
 import type { RootStackRouteNames } from "#/app/navigation/types";
 import { mixpanelTrack } from "#/app/services/mixpanel";
 import type { TrackingEvents } from "#/app/tracking/events";
-import { Fragment } from "react";
-import Animated from "react-native-reanimated";
 
 export interface PressableProps extends NativePressableProps {
 	/**

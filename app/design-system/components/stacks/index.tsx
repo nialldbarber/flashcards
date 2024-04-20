@@ -1,8 +1,8 @@
 import { Children, type PropsWithChildren } from "react";
 import flattenChildren from "react-keyed-flatten-children";
 import { View } from "react-native";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { atoms as a } from "#/app/design-system/atoms";
 import type { SizeScale } from "#/app/design-system/size";
 import { size } from "#/app/design-system/size";
 import { f } from "#/app/design-system/utils/flatten";
@@ -28,9 +28,11 @@ export function Stack({
 	gutter,
 	children: childProp,
 }: PropsWithChildren<StackProps>) {
+	const { styles } = useStyles(stylesheet);
+
 	const children = flattenChildren(childProp);
 	const flexDirectionStyle =
-		direction === "row" ? a.flexRow : a.flexCol;
+		direction === "row" ? styles.row : styles.col;
 	const paddingKey =
 		paddingDirection === "horizontal" ? "paddingLeft" : "paddingTop";
 	const oppositePaddingKey =
@@ -71,3 +73,12 @@ export function Stack({
 		</View>
 	);
 }
+
+const stylesheet = createStyleSheet(() => ({
+	row: {
+		flexDirection: "row",
+	},
+	col: {
+		flexDirection: "column",
+	},
+}));
