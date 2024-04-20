@@ -24,7 +24,6 @@ import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
 import { radii } from "#/app/design-system/radii";
 import { negativeSpace, space } from "#/app/design-system/space";
-import { f } from "#/app/design-system/utils/flatten";
 import { zIndex } from "#/app/design-system/z-index";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import { useModal } from "#/app/hooks/useModal";
@@ -214,7 +213,7 @@ export function HomeScreen() {
 					</Animated.View>
 				</Layout>
 			</>
-			<View style={f([styles.gradientContainer, { width }])}>
+			<View style={[styles.gradientContainer, { width }]}>
 				<LinearGradient
 					colors={["transparent", colors.black]}
 					start={{ x: 0, y: 0 }}
@@ -238,10 +237,10 @@ export function HomeScreen() {
 				</LinearGradient>
 			</View>
 			<Animated.View
-				style={f([
+				style={[
 					offscreenAnimatedStyle,
 					styles.groupModal(isModalOpen),
-				])}
+				]}
 			>
 				<Text>{t("screens.home.addNewGroup")}</Text>
 				<Controller
