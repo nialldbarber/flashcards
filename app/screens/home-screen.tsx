@@ -23,13 +23,13 @@ import { Input } from "#/app/design-system/components/input";
 import { Layout } from "#/app/design-system/components/scroll-layout";
 import { Spacer } from "#/app/design-system/components/spacer";
 import { Text } from "#/app/design-system/components/text";
-import { space } from "#/app/design-system/space";
+import { radii } from "#/app/design-system/radii";
+import { negativeSpace, space } from "#/app/design-system/space";
 import { f } from "#/app/design-system/utils/flatten";
 import { zIndex } from "#/app/design-system/z-index";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import { useModal } from "#/app/hooks/useModal";
 import { state$ } from "#/app/store/";
-import { radii } from "../design-system/radii";
 
 const groupSchema = z.object({
 	name: z
@@ -386,7 +386,7 @@ const stylesheet = createStyleSheet(() => ({
 		right: space["0px"],
 		bottom: space["0px"],
 		alignItems: "center",
-		zIndex: isModalOpen ? zIndex["10px"] : zIndex["2px"],
+		zIndex: isModalOpen ? zIndex["10px"] : negativeSpace["-2px"],
 	}),
 	cardListContainer: {
 		alignItems: "flex-start",
