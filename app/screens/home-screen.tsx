@@ -344,8 +344,8 @@ const stylesheet = createStyleSheet(() => ({
 		zIndex: isModalOpen ? zIndex["10px"] : negativeSpace["-2px"],
 	}),
 	cardListContainer: {
-		alignItems: "flex-start",
-		justifyContent: "center",
+		alignItems: "center",
+		justifyContent: "space-between",
 		flexDirection: "row",
 		marginVertical: space["5px"],
 	},
