@@ -178,6 +178,7 @@ export function HomeScreen() {
 								value={searchValue}
 								onChange={(text) => setSearchValue(text)}
 								placeholder={t("screens.home.searchPlaceholderText")}
+								handleRemove={() => setSearchValue("")}
 							/>
 						</View>
 
