@@ -81,7 +81,7 @@ export function Input({
 					<CloseCircle
 						color={colors.brandMain}
 						variant="Bulk"
-						size={30}
+						size={25}
 					/>
 				</Pressable>
 			</Animated.View>

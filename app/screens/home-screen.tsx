@@ -27,7 +27,7 @@ import { negativeSpace, space } from "#/app/design-system/space";
 import { zIndex } from "#/app/design-system/z-index";
 import { useEffectIgnoreDeps } from "#/app/hooks/useEffectIgnoreDeps";
 import { useModal } from "#/app/hooks/useModal";
-import { state$ } from "#/app/store/";
+import { state$ } from "#/app/store";
 
 const groupSchema = z.object({
 	name: z
@@ -40,7 +40,7 @@ const groupSchema = z.object({
 });
 export type Group = z.infer<typeof groupSchema>;
 
-const ICON_SIZE = 70;
+const ICON_SIZE = 55;
 
 export function HomeScreen() {
 	const { groups, addGroup } = state$.get();
@@ -221,9 +221,12 @@ export function HomeScreen() {
 			</>
 			<View style={[styles.gradientContainer, { width }]}>
 				<LinearGradient
-					colors={["transparent", colors.black]}
+					colors={[
+						isModalOpen ? colors.darkBlue : "transparent",
+						isModalOpen ? colors.darkBlue : colors.black,
+					]}
 					start={{ x: 0, y: 0 }}
-					end={{ x: 0, y: 1 }}
+					end={{ x: 0, y: 0.2 }}
 					style={styles.gradient}
 				>
 					<Button
@@ -333,7 +336,7 @@ export function HomeScreen() {
 	);
 }
 
-const stylesheet = createStyleSheet(() => ({
+const stylesheet = createStyleSheet((_, runtime) => ({
 	container: (isModalOpen) => ({
 		position: "absolute",
 		top: space["0px"],
@@ -367,7 +370,7 @@ const stylesheet = createStyleSheet(() => ({
 		backgroundColor: faded ?? "#9162c025",
 	}),
 	gradientContainer: {
-		bottom: space["42px"],
+		bottom: runtime.insets.bottom,
 		right: space["0px"],
 		left: space["0px"],
 		zIndex: zIndex["10px"],
@@ -378,6 +381,8 @@ const stylesheet = createStyleSheet(() => ({
 		right: space["0px"],
 		bottom: space["0px"],
 		zIndex: zIndex["999px"],
+		marginBottom: -50,
+		height: 110,
 	},
 	groupModal: (isModalOpen) => ({
 		position: "absolute",
